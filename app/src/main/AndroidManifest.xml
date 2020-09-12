@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".CreateOrderActivity"></activity>
-        <activity android:name=".farmer.FarmersOrderActivity" />
+        <activity android:name=".farmer.FarmersActivity" />
         <activity android:name=".buyer.ui.BuyersActivity" />
         <activity android:name=".ui.AuthActivity" />
         <activity android:name=".ui.SignUpActivity" />
