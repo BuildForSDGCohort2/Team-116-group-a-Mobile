@@ -1,7 +1,7 @@
 package com.farmbuy.datamodel
 
 data class Products(
-    val id: String,
+    val orderId: String,
     val productName: String,
     val description: String,
     val units: String,
