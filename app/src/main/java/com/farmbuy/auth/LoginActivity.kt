@@ -3,9 +3,10 @@ package com.farmbuy.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import com.farmbuy.R
-import com.farmbuy.farmer.FarmersActivity
+import com.farmbuy.farmer.FarmersProducts
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -44,14 +45,15 @@ class LoginActivity : AppCompatActivity() {
 
     private fun login(email:String, password:String)
     {
-
+        progressBar.visibility = View.VISIBLE
         mAuth?.signInWithEmailAndPassword(email,password)?.addOnCompleteListener(this){
             if (it.isSuccessful)
             {
+                progressBar.visibility = View.INVISIBLE
                 val id = mAuth!!.currentUser?.uid
 
 
-                val intent = Intent(this, FarmersActivity::class.java)
+                val intent = Intent(this, FarmersProducts::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 startActivity(intent)
             }

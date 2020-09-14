@@ -10,13 +10,21 @@ import android.widget.Toast
 import com.farmbuy.R
 import com.farmbuy.buyer.ui.BuyersActivity
 import com.farmbuy.datamodel.User
-import com.farmbuy.farmer.FarmersActivity
+import com.farmbuy.farmer.FarmersProducts
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class SignUpActivity : AppCompatActivity() {
 
+    private var userRef = Firebase.firestore.collection("Users")
     private var mAuth: FirebaseAuth? = null
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
     private val myRef = database.getReference("Users")
@@ -26,6 +34,9 @@ class SignUpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
+        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
         mAuth = FirebaseAuth.getInstance()
 
 
@@ -60,7 +71,7 @@ class SignUpActivity : AppCompatActivity() {
             val mUseranme = username.text?.trim().toString()
             val mEmail = email.text?.trim().toString()
             val mPassword = password?.text?.trim().toString()
-            register(mEmail,mPassword,mUseranme,mchoice)
+            register(mEmail, mPassword, mUseranme, mchoice)
         }
     }
 
@@ -81,44 +92,47 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun register( email: String, password: String, username: String, choice: String) {
-
-        if (choice == "farmer")
-        {
-            isFarmer = true
-        }
+    private fun register(email: String, password: String, username: String, userType: String) {
+        progressBar.visibility = View.VISIBLE
         mAuth?.createUserWithEmailAndPassword(email, password)?.addOnCompleteListener(this) {
 
-            if (it.isSuccessful) {
-                val userId = mAuth?.currentUser?.uid
-                val user = userId?.let { it1 ->
-                    User(
-                     username,isFarmer,email,userId,"default"
-                    )
-                }
-                if (userId != null) {
-                    myRef.child(userId).setValue(user)
-                }
+            if (it.isSuccessful)
+            {
 
-                if (isFarmer)
-                {
-                    val intent = Intent(this, FarmersActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(intent)
-                }
-                else{
-                    val intent = Intent(this, BuyersActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(intent)
-                }
+                val user = User(username, userType, email, "default")
+                registerUserToDb(user)
 
-            } else {
-                Toast.makeText(
-                    this,
-                    "Cant register User Please Check your email or Password.",
-                    Toast.LENGTH_LONG
-                ).show()
+
             }
+            else
+            {
+                progressBar.visibility = View.INVISIBLE
+                Toast.makeText(this, it.exception.toString(), Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    fun registerUserToDb(user: User) = CoroutineScope(Dispatchers.IO).launch {
+
+        try {
+//            userRef.document().add()
+            userRef.add(user).await()
+            withContext(Dispatchers.Main)
+            {
+                progressBar.visibility = View.INVISIBLE
+                if (user.userTpe == "farmer") {
+                    val intent = Intent(this@SignUpActivity, FarmersProducts::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intent)
+                } else {
+                    val intent = Intent(this@SignUpActivity, BuyersActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intent)
+                }
+            }
+
+        } catch (e: Exception) {
+            Toast.makeText(this@SignUpActivity, e.message, Toast.LENGTH_SHORT).show()
         }
     }
 }
