@@ -1,34 +1,36 @@
-package com.farmbuy.farmer
+package com.farmbuy.farmer.fragments
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.farmbuy.R
+import com.farmbuy.adapters.OnUserClick
+import com.farmbuy.adapters.ProductsAdapter
+import com.farmbuy.datamodel.Products
+import com.farmbuy.farmer.CreateOrderActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_farmers_products.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [FarmersProductsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class FarmersProductsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class FarmersProductsFragment : Fragment(),OnUserClick {
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var productsList: MutableList<Products>
+    var dbRef = Firebase.firestore.collection("Products")
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,23 +40,65 @@ class FarmersProductsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_farmers_products, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment FarmersProductsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FarmersProductsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        fab.setOnClickListener {
+            val intent = Intent(activity, CreateOrderActivity::class.java)
+            startActivity(intent)
+        }
+
+
+        recyclerView = view.findViewById(R.id.recyclerview)
+        productsList = mutableListOf()
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(activity) as RecyclerView.LayoutManager?
+            setHasFixedSize(true)
+        }
+        getProducts()
+
+    }
+
+    private fun getProducts()
+    {
+        val farmerId = FirebaseAuth.getInstance().currentUser?.uid
+        dbRef.whereEqualTo("farmersId",farmerId)
+            .addSnapshotListener{ value: QuerySnapshot?, error: FirebaseFirestoreException? ->
+            error?.let {
+                Toast.makeText(activity,"Sorry cant get Products at this time", Toast.LENGTH_SHORT).show()
+                return@addSnapshotListener
+            }
+
+            value?.let {
+                for(documents in value.documents)
+                {
+                    val products = documents.toObject<Products>()
+                    if (products != null) {
+                        productsList.add(products)
+                        Log.d("gads",productsList.toString())
+                        Log.d("gads","DATA RECEIVED")
+
+                        val adapter = ProductsAdapter(productsList, this)
+                        Log.d("gads","ADAPTER SETTED")
+                        recyclerView.adapter = adapter
+                        adapter.notifyDataSetChanged()
+                    }
+
                 }
             }
+
+
+        }
+
+
+    }
+
+    override fun onUserClick(products: Products, position: Int) {
+        val bundle = Bundle().apply {
+            putSerializable("products",products)
+        }
+
+        findNavController().navigate(R.id.action_farmersProductsFragment_to_editFarmerOrderActivity,bundle)
     }
 }

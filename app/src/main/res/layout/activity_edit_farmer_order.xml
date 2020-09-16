@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".farmer.CreateOrderActivity">
+    tools:context=".farmer.EditFarmerOrderActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -22,7 +22,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="CREATE ORDER"
+            app:title="EDIT ORDER"
             app:titleTextColor="@color/white" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -118,7 +118,7 @@
                 app:layout_constraintStart_toStartOf="@+id/etLocation"
                 app:layout_constraintTop_toBottomOf="@id/etLocation" />
 
-            <ImageView
+            <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
@@ -126,30 +126,26 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/farmproducts"
+                app:placeholderImage="@drawable/farmproducts"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/etContact"
                 app:layout_constraintStart_toStartOf="@+id/etContact"
                 app:layout_constraintTop_toBottomOf="@id/etContact"
                 app:layout_constraintVertical_bias="0.07999998" />
 
+
             <Button
                 android:id="@+id/cancel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="125dp"
+                android:layout_height="49dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginBottom="32dp"
                 android:background="@drawable/btn_background"
-                android:text="CREATE ORDER"
+                android:text="CANCEL"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/image"
                 app:layout_constraintStart_toStartOf="@+id/image"
                 app:layout_constraintTop_toBottomOf="@id/image" />
-
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -162,6 +158,33 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:visibility="invisible"/>
+
+            <Button
+                android:id="@+id/update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:textColor="@color/white"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/update_btn_background"
+                android:text="UPDATE"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image" />
+
+            <Button
+                android:id="@+id/delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="48dp"
+                android:text="DELETE PRODUCT"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="@drawable/delete_btn_background"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cancel" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

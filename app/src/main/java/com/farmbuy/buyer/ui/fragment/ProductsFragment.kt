@@ -1,4 +1,4 @@
-package com.farmbuy.farmer
+package com.farmbuy.buyer.ui.fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.farmbuy.R
@@ -67,10 +68,10 @@ class ProductsFragment : Fragment(), OnUserClick {
 
     override fun onUserClick(products: Products, position: Int) {
 
-        Log.d("gads",products.toString())
-//        val intent = Intent(activity, OrderActivity::class.java)
-//        intent.putExtra("product", products)
-//        startActivity(intent)
+        val bundle = Bundle().apply {
+            putSerializable("product",products)
+        }
+        findNavController().navigate(R.id.action_productsFragment_to_orderActivity,bundle)
     }
 
     private fun getProducts()

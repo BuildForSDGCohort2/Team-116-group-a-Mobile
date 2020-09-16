@@ -1,4 +1,4 @@
-package com.farmbuy.ui
+package com.farmbuy.auth
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

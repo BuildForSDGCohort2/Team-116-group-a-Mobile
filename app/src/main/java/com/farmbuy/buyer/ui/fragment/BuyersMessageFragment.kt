@@ -1,4 +1,4 @@
-package com.farmbuy.buyer.ui
+package com.farmbuy.buyer.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -7,9 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.navigation.findNavController
 import com.farmbuy.R
 import com.farmbuy.datamodel.Products
-import com.farmbuy.farmer.FarmersProducts
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -31,21 +31,21 @@ private const val REQUEST_CODE_IMAGE_PICK = 100
 
 class CreateOrderActivity : AppCompatActivity() {
 
-    var imageUri: Uri? = null
-    val imageRef = Firebase.storage.reference
-    var dbRef = Firebase.firestore.collection("Products")
-    var imageUrl = ""
+    private var imageUri: Uri? = null
+    private val imageRef = Firebase.storage.reference
+    private var dbRef = Firebase.firestore.collection("Products")
+    private var imageUrl = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_order)
 
         val farmerId = FirebaseAuth.getInstance().currentUser?.uid
 
-        val uuid = UUID.randomUUID().toString()
+        val productId = UUID.randomUUID().toString()
 
-        val current_date = SimpleDateFormat("EEE, d MMM yyyy ", Locale.getDefault()).format(Date())
+        val currentDate = SimpleDateFormat("EEE, d MMM yyyy ", Locale.getDefault()).format(Date())
 
-        create_order.setOnClickListener {
+        cancel.setOnClickListener {
             validateInputs()
 
             if (imageUri == null) {
@@ -62,7 +62,7 @@ class CreateOrderActivity : AppCompatActivity() {
                 val products = farmerId?.let { id ->
                     Products(
                         productName, description, units, price, address, imageUrl,
-                        id, current_date, contact
+                        id, currentDate, contact, "", productId
                     )
                 }
                 if (products != null) {
@@ -78,14 +78,12 @@ class CreateOrderActivity : AppCompatActivity() {
 
             Intent(Intent.ACTION_GET_CONTENT).also {
                 it.type = "image/*"
-                startActivityForResult(it,
+                startActivityForResult(
+                    it,
                     REQUEST_CODE_IMAGE_PICK
                 )
             }
         }
-
-        progressBar.visibility = View.VISIBLE
-        progressBar.visibility = View.INVISIBLE
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -101,7 +99,7 @@ class CreateOrderActivity : AppCompatActivity() {
         }
     }
 
-    private fun createOrder(products: Products) = CoroutineScope(Dispatchers.IO).launch {
+   private fun createOrder(products: Products) = CoroutineScope(Dispatchers.IO).launch {
 
         try {
 
@@ -109,8 +107,8 @@ class CreateOrderActivity : AppCompatActivity() {
             withContext(Dispatchers.Main) {
                 progressBar.visibility = View.INVISIBLE
                 Toast.makeText(this@CreateOrderActivity, "SUCCESS", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this@CreateOrderActivity,FarmersProducts::class.java)
-                startActivity(intent)
+
+                findNavController().navigate(R.id.farmersProductsFragment)
             }
         } catch (e: Exception) {
             Toast.makeText(this@CreateOrderActivity, e.message, Toast.LENGTH_SHORT).show()
@@ -118,24 +116,24 @@ class CreateOrderActivity : AppCompatActivity() {
 
     }
 
-    fun validateInputs() {
+    private fun validateInputs() {
         if (etProductName.text.isEmpty()) {
-            etProductName.setError("This field is required")
+            etProductName.error = "This field is required"
         }
         if (etContact.text.isEmpty()) {
-            etContact.setError("This field is required")
+            etContact.error = "This field is required"
         }
         if (etDescription.text.isEmpty()) {
-            etDescription.setError("This field is required")
+            etDescription.error = "This field is required"
         }
         if (etLocation.text.isEmpty()) {
-            etLocation.setError("This field is required")
+            etLocation.error = "This field is required"
         }
         if (etPrice.text.isEmpty()) {
-            etPrice.setError("This field is required")
+            etPrice.error = "This field is required"
         }
         if (etUnits.text.isEmpty()) {
-            etUnits.setError("This field is required")
+            etUnits.error = "This field is required"
         }
 
     }

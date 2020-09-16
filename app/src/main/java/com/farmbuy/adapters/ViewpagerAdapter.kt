@@ -4,8 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.farmbuy.buyer.ui.BuyersOrdersFragment
-import com.farmbuy.ProductsFragment
+import com.farmbuy.buyer.ui.fragment.BuyersOrdersFragment
+import com.farmbuy.buyer.ui.fragment.ProductsFragment
 
 class ViewpagerAdapter (fm: FragmentManager?, lifecycle: Lifecycle) : FragmentStateAdapter(fm!!, lifecycle) {
     private val int_items = 2

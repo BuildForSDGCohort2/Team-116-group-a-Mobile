@@ -1,4 +1,4 @@
-package com.farmbuy.ui
+package com.farmbuy.auth
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -13,13 +13,13 @@ class AuthActivity : AppCompatActivity() {
 
         login.setOnClickListener {
 
-            val intent = Intent(this,LoginActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 
 
         signup.setOnClickListener {
-            val intent = Intent(this,SignUpActivity::class.java)
+            val intent = Intent(this, SignUpActivity::class.java)
             startActivity(intent) }
     }
 }

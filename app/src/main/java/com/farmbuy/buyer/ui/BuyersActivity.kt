@@ -5,13 +5,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.farmbuy.R
-import com.farmbuy.adapters.ViewpagerAdapter
-import com.farmbuy.ui.LoginActivity
+import com.farmbuy.auth.LoginActivity
 import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_buyers.*
 
 class BuyersActivity : AppCompatActivity() {
 
@@ -25,23 +26,25 @@ class BuyersActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        bottom_nav.setupWithNavController(nav_host_fragment_container.findNavController())
 
-        tabLayout = findViewById(R.id.tabLayout)
-        viewPager = findViewById(R.id.viewpager)
-        viewPager!!.adapter = ViewpagerAdapter(
-            supportFragmentManager,
-            lifecycle
-        )
 
-        TabLayoutMediator(
-            tabLayout!!,
-            viewPager!!,
-            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                when (position) {
-                    0 -> tab.text = "Products"
-                    1 -> tab.text = "My Orders"
-                }
-            }).attach()
+//        tabLayout = findViewById(R.id.tabLayout)
+//        viewPager = findViewById(R.id.viewpager)
+//        viewPager!!.adapter = ViewpagerAdapter(
+//            supportFragmentManager,
+//            lifecycle
+//        )
+//
+//        TabLayoutMediator(
+//            tabLayout!!,
+//            viewPager!!,
+//            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
+//                when (position) {
+//                    0 -> tab.text = "Products"
+//                    1 -> tab.text = "My Orders"
+//                }
+//            }).attach()
     }
 
 

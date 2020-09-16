@@ -21,10 +21,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:placeholderImage="@drawable/farmProducts" />
+            app:placeholderImage="@drawable/farmproducts" />
 
         <TextView
-            android:id="@+id/productName"
+            android:id="@+id/etProductName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -34,14 +34,14 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <TextView
-            android:id="@+id/location"
+            android:id="@+id/etLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:text="Abuja"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/productName" />
+            app:layout_constraintTop_toBottomOf="@+id/etProductName" />
 
         <TextView
             android:id="@+id/units"
@@ -52,7 +52,7 @@
             android:layout_marginTop="4dp"
             android:text="300 Units "
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/location" />
+            app:layout_constraintTop_toBottomOf="@+id/etLocation" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
