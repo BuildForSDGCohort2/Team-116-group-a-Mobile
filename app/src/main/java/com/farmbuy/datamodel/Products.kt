@@ -15,5 +15,6 @@ data class Products(
     val dateUploaded: String = "",
     val phone: String = "",
     var buyerId: String = "",
-    val productId: String = ""
+    val productId: String = "",
+    var status:String = ""
 ) : Serializable

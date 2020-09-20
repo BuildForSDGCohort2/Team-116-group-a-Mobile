@@ -27,7 +27,11 @@
         android:id="@+id/farmerOrdersFragment"
         android:name="com.farmbuy.farmer.fragments.FarmerOrdersFragment"
         android:label="fragment_farmer_orders"
-        tools:layout="@layout/fragment_farmer_orders" />
+        tools:layout="@layout/fragment_farmer_orders" >
+        <action
+            android:id="@+id/action_farmerOrdersFragment_to_approveOrderFragment"
+            app:destination="@id/approveOrderFragment" />
+    </fragment>
     <fragment
         android:id="@+id/farmerMessageFragment"
         android:name="com.farmbuy.farmer.fragments.FarmerMessageFragment"
@@ -47,4 +51,13 @@
             android:name="product"
             app:argType="com.farmbuy.datamodel.Products" />
     </activity>
+    <fragment
+        android:id="@+id/approveOrderFragment"
+        android:name="com.farmbuy.farmer.fragments.ApproveOrderFragment"
+        android:label="fragment_approve_order"
+        tools:layout="@layout/fragment_approve_order" >
+        <argument
+            android:name="product"
+            app:argType="com.farmbuy.datamodel.Products" />
+    </fragment>
 </navigation>

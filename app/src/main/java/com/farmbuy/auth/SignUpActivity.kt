@@ -1,7 +1,9 @@
 package com.farmbuy.auth
 
+import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -12,19 +14,29 @@ import com.farmbuy.R
 import com.farmbuy.buyer.ui.BuyersActivity
 import com.farmbuy.datamodel.User
 import com.farmbuy.farmer.FarmersActivity
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.UploadTask
+import com.google.firebase.storage.ktx.storage
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import kotlinx.android.synthetic.main.activity_sign_up.image
+import kotlinx.android.synthetic.main.activity_sign_up.progressBar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.util.*
 
 class SignUpActivity : AppCompatActivity() {
 
+    private var imageUri: Uri? = null
+    private val imageRef = Firebase.storage.reference
+    private var imageUrl = ""
     private var PRIVATE_MODE = 0
     private val PREF_NAME = "farm_buy"
     private var userRef = Firebase.firestore.collection("Users")
@@ -32,6 +44,7 @@ class SignUpActivity : AppCompatActivity() {
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
     lateinit var mchoice: String
     lateinit var sharedPref:SharedPreferences
+    private val REQUEST_CODE_IMAGE_PICK = 200
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
@@ -67,6 +80,16 @@ class SignUpActivity : AppCompatActivity() {
                     // Another interface callback
                 }
             }
+
+            image.setOnClickListener {
+                Intent(Intent.ACTION_GET_CONTENT).also {
+                    it.type = "image/*"
+                    startActivityForResult(
+                        it,
+                        REQUEST_CODE_IMAGE_PICK
+                    )
+                }
+            }
         }
 
         signup.setOnClickListener {
@@ -75,8 +98,14 @@ class SignUpActivity : AppCompatActivity() {
 
             val mUseranme = username.text?.trim().toString()
             val mEmail = email.text?.trim().toString()
-            val mPassword = password?.text?.trim().toString()
-            register(mEmail, mPassword, mUseranme, mchoice)
+            val mPassword = phone?.text?.trim().toString()
+            val address = address.text.toString()
+            val phone_number = phone.text.toString()
+            if (imageUrl != "")
+            {
+
+            }
+            register(mEmail, mPassword, mUseranme, mchoice,phone_number,address,imageUrl)
         }
     }
 
@@ -91,19 +120,19 @@ class SignUpActivity : AppCompatActivity() {
             email.requestFocus()
         }
 
-        if (password.text.isNullOrEmpty()) {
-            password.error = "Password is Required"
-            password.requestFocus()
+        if (phone.text.isNullOrEmpty()) {
+            phone.error = "Password is Required"
+            phone.requestFocus()
         }
     }
 
-    private fun register(email: String, password: String, username: String, userType: String) {
+    private fun register(email: String, password: String, username: String, userType: String,phone_number:String,addess:String,profileUrl:String) {
         progressBar.visibility = View.VISIBLE
         mAuth?.createUserWithEmailAndPassword(email, password)?.addOnCompleteListener(this) {
 
             if (it.isSuccessful)
             {
-                val user = User(username, userType, email, "default")
+                val user = User(username, userType, email,phone_number,addess,profileUrl)
                 registerUserToDb(user)
             }
             else
@@ -141,6 +170,47 @@ class SignUpActivity : AppCompatActivity() {
 
         } catch (e: Exception) {
             Toast.makeText(this@SignUpActivity, e.message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    private fun uploadImage() {
+        if (imageUri != null) {
+            val ref = imageRef.child("uploads/" + UUID.randomUUID().toString())
+            val uploadTask = ref.putFile(imageUri!!)
+
+            uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
+                }
+                return@Continuation ref.downloadUrl
+            }).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    imageUrl = task.result.toString()
+                } else {
+                    // Handle failures
+                }
+            }.addOnFailureListener {
+                Toast.makeText(this, "Sorry an Error Occured", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(this, "Please Upload an Image", Toast.LENGTH_SHORT).show()
+
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode ==REQUEST_CODE_IMAGE_PICK) {
+            data?.data?.let {
+                imageUri = it
+                image.setImageURI(it)
+                progressBar.visibility = View.VISIBLE
+                uploadImage()
+                progressBar.visibility = View.INVISIBLE
+            }
         }
     }
 }

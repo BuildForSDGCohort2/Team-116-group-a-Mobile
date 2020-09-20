@@ -11,7 +11,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.farmbuy.R
+import com.farmbuy.adapters.OnClick
 import com.farmbuy.adapters.OnUserClick
+import com.farmbuy.adapters.OrdersAdapter
 import com.farmbuy.adapters.ProductsAdapter
 import com.farmbuy.datamodel.Products
 import com.google.firebase.firestore.FirebaseFirestoreException
@@ -22,7 +24,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_products.*
 
 
-class ProductsFragment : Fragment(), OnUserClick {
+class ProductsFragment : Fragment(), OnClick {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var productsList: MutableList<Products>
@@ -69,7 +71,7 @@ class ProductsFragment : Fragment(), OnUserClick {
                         productsList.add(products)
                         Log.d("gads",productsList.toString())
                         progressBar.visibility = View.INVISIBLE
-                        val adapter = ProductsAdapter(
+                        val adapter = OrdersAdapter(
                             productsList,
                             this)
                         recyclerView.adapter = adapter

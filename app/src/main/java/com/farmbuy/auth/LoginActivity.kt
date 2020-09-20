@@ -19,7 +19,7 @@ class LoginActivity : AppCompatActivity() {
         loginbtn.setOnClickListener {
             verifyInputs()
             val mEmail = email.text?.trim().toString()
-            val mPassword = password?.text?.trim().toString()
+            val mPassword = phone?.text?.trim().toString()
             login(mEmail,mPassword)
         }
 
@@ -34,10 +34,10 @@ class LoginActivity : AppCompatActivity() {
             email.requestFocus()
         }
 
-        if(password.text.isNullOrEmpty())
+        if(phone.text.isNullOrEmpty())
         {
-            password.error = "Password is Required"
-            password.requestFocus()
+            phone.error = "Password is Required"
+            phone.requestFocus()
         }
 
     }
