@@ -1,6 +1,7 @@
 package com.farmbuy.buyer.ui
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -15,12 +16,15 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_buyers.*
 
 class BuyersActivity : AppCompatActivity() {
+    private var PRIVATE_MODE = 0
+    private val PREF_NAME = "farm_buy"
+    private lateinit var  sharedPref: SharedPreferences
 
-    private var tabLayout: TabLayout? = null
-    private var viewPager: ViewPager2? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_buyers)
+
+       sharedPref  = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
 
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -28,23 +32,6 @@ class BuyersActivity : AppCompatActivity() {
 
         bottom_nav.setupWithNavController(nav_host_fragment_container.findNavController())
 
-
-//        tabLayout = findViewById(R.id.tabLayout)
-//        viewPager = findViewById(R.id.viewpager)
-//        viewPager!!.adapter = ViewpagerAdapter(
-//            supportFragmentManager,
-//            lifecycle
-//        )
-//
-//        TabLayoutMediator(
-//            tabLayout!!,
-//            viewPager!!,
-//            TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-//                when (position) {
-//                    0 -> tab.text = "Products"
-//                    1 -> tab.text = "My Orders"
-//                }
-//            }).attach()
     }
 
 
@@ -59,6 +46,9 @@ class BuyersActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.logout -> {
                 FirebaseAuth.getInstance().signOut()
+                val editor = sharedPref.edit()
+                editor.clear()
+                editor.apply()
                 val it = Intent(this, LoginActivity::class.java)
                 startActivity(it)
                 finish()

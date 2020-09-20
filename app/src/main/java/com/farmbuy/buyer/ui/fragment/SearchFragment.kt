@@ -47,8 +47,6 @@ class SearchFragment : Fragment(), OnUserClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         recyclerView = view.findViewById(R.id.recyclerview)
         productsList = mutableListOf()
         progressBar = view.findViewById(R.id.progressBar)
@@ -59,18 +57,6 @@ class SearchFragment : Fragment(), OnUserClick {
 
         recyclerView.setHasFixedSize(true)
 
-        if (productsList.isNotEmpty())
-        {
-            val adapter = ProductsAdapter(
-                productsList,
-                this)
-            recyclerView.adapter = adapter
-
-
-            progressBar.visibility = View.INVISIBLE
-
-            adapter.notifyDataSetChanged()
-        }
         var job: Job? = null
         searchQuery.addTextChangedListener { searchText ->
 
@@ -86,13 +72,6 @@ class SearchFragment : Fragment(), OnUserClick {
             }
         }
 
-    }
-
-    override fun onUserClick(products: Products, position: Int) {
-        val bundle = Bundle().apply {
-            putSerializable("product",products)
-        }
-        findNavController().navigate(R.id.action_searchFragment_to_orderActivity,bundle)
     }
 
 
@@ -112,9 +91,18 @@ class SearchFragment : Fragment(), OnUserClick {
                 {
                     val products = documents.toObject<Products>()
                     if (products != null) {
+                        productsList.clear()
                         productsList.add(products)
                         Log.d("gads",productsList.toString())
                         progressBar.visibility = View.INVISIBLE
+                        val adapter = ProductsAdapter(
+                            productsList,
+                            this)
+                        recyclerView.adapter = adapter
+
+                        progressBar.visibility = View.INVISIBLE
+
+                        adapter.notifyDataSetChanged()
                     }
 
                 }
@@ -124,5 +112,12 @@ class SearchFragment : Fragment(), OnUserClick {
         }
 
 
+    }
+
+    override fun onUserClick(products: Products, position: Int) {
+        val bundle = Bundle().apply {
+            putSerializable("product",products)
+        }
+        findNavController().navigate(R.id.action_searchFragment_to_orderActivity,bundle)
     }
 }

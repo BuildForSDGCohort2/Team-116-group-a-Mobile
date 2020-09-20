@@ -11,9 +11,9 @@ data class Products(
     val price: String = "",
     val farmersLoc: String = "",
     val imageUrl: String = "default",
-    val farmersId: String = "",
+    var farmersId: String = "",
     val dateUploaded: String = "",
     val phone: String = "",
-    val buyerId: String = "",
+    var buyerId: String = "",
     val productId: String = ""
 ) : Serializable

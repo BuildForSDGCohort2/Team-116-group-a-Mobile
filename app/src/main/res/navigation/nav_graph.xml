@@ -29,7 +29,7 @@
         android:label="activity_order"
         tools:layout="@layout/activity_order" >
         <argument
-            android:name="products"
+            android:name="product"
             app:argType="com.farmbuy.datamodel.Products" />
     </activity>
     <fragment

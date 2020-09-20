@@ -26,7 +26,7 @@ class ProductsFragment : Fragment(), OnUserClick {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var productsList: MutableList<Products>
-    var dbRef = Firebase.firestore.collection("Products")
+    private var dbRef = Firebase.firestore.collection("Products")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -46,33 +46,10 @@ class ProductsFragment : Fragment(), OnUserClick {
         getProducts()
         recyclerView.setHasFixedSize(true)
 
-        if (productsList.isNotEmpty())
-        {
-            val adapter = ProductsAdapter(
-                productsList,
-                this)
-            recyclerView.adapter = adapter
 
-            progressBar.visibility = View.INVISIBLE
-
-            adapter.notifyDataSetChanged()
-        }
-
-        val adapter = ProductsAdapter(
-            productsList,
-            this)
-        recyclerView.adapter = adapter
-        // progressBar.visibility = View.GONE
-        adapter.notifyDataSetChanged()
     }
 
-    override fun onUserClick(products: Products, position: Int) {
 
-        val bundle = Bundle().apply {
-            putSerializable("product",products)
-        }
-        findNavController().navigate(R.id.action_productsFragment_to_orderActivity,bundle)
-    }
 
     private fun getProducts()
     {
@@ -92,15 +69,27 @@ class ProductsFragment : Fragment(), OnUserClick {
                         productsList.add(products)
                         Log.d("gads",productsList.toString())
                         progressBar.visibility = View.INVISIBLE
+                        val adapter = ProductsAdapter(
+                            productsList,
+                            this)
+                        recyclerView.adapter = adapter
+                        // progressBar.visibility = View.GONE
+                        adapter.notifyDataSetChanged()
+
                     }
 
                 }
             }
 
-
         }
+    }
 
+    override fun onUserClick(products: Products, position: Int) {
 
+        val bundle = Bundle().apply {
+            putSerializable("product",products)
+        }
+        findNavController().navigate(R.id.action_productsFragment_to_orderActivity,bundle)
     }
 
 }

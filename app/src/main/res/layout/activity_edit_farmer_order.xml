@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".farmer.EditFarmerOrderActivity">
+    tools:context=".farmer.UpdateOrderActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -135,7 +135,7 @@
 
 
             <Button
-                android:id="@+id/cancel"
+                android:id="@+id/create_btn"
                 android:layout_width="125dp"
                 android:layout_height="49dp"
                 android:layout_marginStart="24dp"
@@ -184,7 +184,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:background="@drawable/delete_btn_background"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cancel" />
+                app:layout_constraintTop_toBottomOf="@id/create_btn" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

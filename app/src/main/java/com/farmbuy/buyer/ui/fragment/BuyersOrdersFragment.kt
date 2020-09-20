@@ -42,7 +42,10 @@ class BuyersOrdersFragment : Fragment(),OnUserClick {
         recyclerView.apply {
             layoutManager = LinearLayoutManager(activity) as RecyclerView.LayoutManager?
             setHasFixedSize(true)
+
         }
+
+        getProducts()
 
 
     }
@@ -70,11 +73,7 @@ class BuyersOrdersFragment : Fragment(),OnUserClick {
 
                     }
                 }
-
-
             }
-
-
     }
 
     override fun onUserClick(products: Products, position: Int) {

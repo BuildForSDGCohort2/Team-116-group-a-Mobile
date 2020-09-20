@@ -1,6 +1,7 @@
 package com.farmbuy.auth
 
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -10,7 +11,7 @@ import android.widget.Toast
 import com.farmbuy.R
 import com.farmbuy.buyer.ui.BuyersActivity
 import com.farmbuy.datamodel.User
-import com.farmbuy.farmer.FarmersProducts
+import com.farmbuy.farmer.FarmersActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.ktx.firestore
@@ -24,19 +25,23 @@ import kotlinx.coroutines.withContext
 
 class SignUpActivity : AppCompatActivity() {
 
+    private var PRIVATE_MODE = 0
+    private val PREF_NAME = "farm_buy"
     private var userRef = Firebase.firestore.collection("Users")
     private var mAuth: FirebaseAuth? = null
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private val myRef = database.getReference("Users")
     lateinit var mchoice: String
-    private var isFarmer = false
+    lateinit var sharedPref:SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
+        sharedPref= getSharedPreferences(PREF_NAME, PRIVATE_MODE)
+
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+
         mAuth = FirebaseAuth.getInstance()
 
 
@@ -75,7 +80,7 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    fun verifyInputs() {
+    private fun verifyInputs() {
         if (username.text.isNullOrEmpty()) {
             username.error = "Username is Required"
             username.requestFocus()
@@ -98,11 +103,8 @@ class SignUpActivity : AppCompatActivity() {
 
             if (it.isSuccessful)
             {
-
                 val user = User(username, userType, email, "default")
                 registerUserToDb(user)
-
-
             }
             else
             {
@@ -112,7 +114,7 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    fun registerUserToDb(user: User) = CoroutineScope(Dispatchers.IO).launch {
+    private fun registerUserToDb(user: User) = CoroutineScope(Dispatchers.IO).launch {
 
         try {
 //            userRef.document().add()
@@ -120,11 +122,17 @@ class SignUpActivity : AppCompatActivity() {
             withContext(Dispatchers.Main)
             {
                 progressBar.visibility = View.INVISIBLE
-                if (user.userTpe == "farmer") {
-                    val intent = Intent(this@SignUpActivity, FarmersProducts::class.java)
+                if (user.userTpe == "Farmer") {
+                    val editor = sharedPref.edit()
+                    editor.putString(PREF_NAME,"farmer")
+                    editor.apply()
+                    val intent = Intent(this@SignUpActivity, FarmersActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(intent)
                 } else {
+                    val editor = sharedPref.edit()
+                    editor.putString(PREF_NAME,"buyer")
+                    editor.apply()
                     val intent = Intent(this@SignUpActivity, BuyersActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(intent)

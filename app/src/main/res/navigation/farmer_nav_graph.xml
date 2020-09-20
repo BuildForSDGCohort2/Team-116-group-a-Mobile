@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_farmersProductsFragment_to_editFarmerOrderActivity"
             app:destination="@id/editFarmerOrderActivity" />
+        <action
+            android:id="@+id/action_farmersProductsFragment_to_createOrderActivity"
+            app:destination="@id/createOrderActivity" />
     </fragment>
     <fragment
         android:id="@+id/farmerOrdersFragment"
@@ -37,7 +40,7 @@
         tools:layout="@layout/fragment_farmer_profile" />
     <activity
         android:id="@+id/editFarmerOrderActivity"
-        android:name="com.farmbuy.farmer.EditFarmerOrderActivity"
+        android:name="com.farmbuy.farmer.UpdateOrderActivity"
         android:label="activity_edit_farmer_order"
         tools:layout="@layout/activity_edit_farmer_order" >
         <argument

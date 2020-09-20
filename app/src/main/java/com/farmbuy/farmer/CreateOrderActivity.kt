@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import com.farmbuy.R
 import com.farmbuy.datamodel.Products
@@ -45,7 +46,7 @@ class CreateOrderActivity : AppCompatActivity() {
 
         val currentDate = SimpleDateFormat("EEE, d MMM yyyy ", Locale.getDefault()).format(Date())
 
-        cancel.setOnClickListener {
+        create_btn.setOnClickListener {
             validateInputs()
 
             if (imageUri == null) {
@@ -68,6 +69,9 @@ class CreateOrderActivity : AppCompatActivity() {
                 if (products != null) {
                     progressBar.visibility = View.VISIBLE
                     createOrder(products)
+
+//                    findNavController().navigate(R.id.)
+                    it.findNavController().navigate(R.id.farmersProductsFragment)
                 }
 
 
@@ -107,8 +111,6 @@ class CreateOrderActivity : AppCompatActivity() {
             withContext(Dispatchers.Main) {
                 progressBar.visibility = View.INVISIBLE
                 Toast.makeText(this@CreateOrderActivity, "SUCCESS", Toast.LENGTH_SHORT).show()
-
-                findNavController().navigate(R.id.farmersProductsFragment)
             }
         } catch (e: Exception) {
             Toast.makeText(this@CreateOrderActivity, e.message, Toast.LENGTH_SHORT).show()
@@ -141,32 +143,28 @@ class CreateOrderActivity : AppCompatActivity() {
 
     private fun uploadImage() {
         if (imageUri != null) {
-            progressBar.visibility = View.VISIBLE
-            val ref = imageRef?.child("uploads/" + UUID.randomUUID().toString())
-            val uploadTask = ref?.putFile(imageUri!!)
+            val ref = imageRef.child("uploads/" + UUID.randomUUID().toString())
+            val uploadTask = ref.putFile(imageUri!!)
 
-            val urlTask =
-                uploadTask?.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
-                    if (!task.isSuccessful) {
-                        task.exception?.let {
-                            throw it
-                        }
+            uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
                     }
-                    return@Continuation ref.downloadUrl
-                })?.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        progressBar.visibility = View.INVISIBLE
-                        imageUrl = task.result.toString()
-                    } else {
-                        // Handle failures
-                    }
-                }?.addOnFailureListener {
-                    Toast.makeText(this, "Sorry an Error Occured", Toast.LENGTH_SHORT).show()
-                    progressBar.visibility = View.INVISIBLE
                 }
+                return@Continuation ref.downloadUrl
+            }).addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    imageUrl = task.result.toString()
+                } else {
+                    // Handle failures
+                }
+            }.addOnFailureListener {
+                Toast.makeText(this, "Sorry an Error Occured", Toast.LENGTH_SHORT).show()
+            }
         } else {
             Toast.makeText(this, "Please Upload an Image", Toast.LENGTH_SHORT).show()
-            progressBar.visibility = View.INVISIBLE
+
         }
     }
 

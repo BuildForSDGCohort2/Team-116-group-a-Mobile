@@ -84,6 +84,9 @@ class FarmersProductsFragment : Fragment(),OnUserClick {
                         recyclerView.adapter = adapter
                         adapter.notifyDataSetChanged()
                     }
+                    else{
+                        Toast.makeText(activity,"You have no Products",Toast.LENGTH_SHORT).show()
+                    }
 
                 }
             }
@@ -96,7 +99,7 @@ class FarmersProductsFragment : Fragment(),OnUserClick {
 
     override fun onUserClick(products: Products, position: Int) {
         val bundle = Bundle().apply {
-            putSerializable("products",products)
+            putSerializable("product",products)
         }
 
         findNavController().navigate(R.id.action_farmersProductsFragment_to_editFarmerOrderActivity,bundle)

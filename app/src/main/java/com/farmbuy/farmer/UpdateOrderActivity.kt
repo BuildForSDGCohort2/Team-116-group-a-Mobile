@@ -41,8 +41,8 @@ import java.util.*
 
 private const val REQUEST_CODE_IMAGE_PICK = 100
 
-class EditFarmerOrderActivity : AppCompatActivity() {
-    private val args: EditFarmerOrderActivityArgs by navArgs()
+class UpdateOrderActivity : AppCompatActivity() {
+    private val args: UpdateOrderActivityArgs by navArgs()
     private var dbRef = Firebase.firestore.collection("Products")
     private var imageUri: Uri? = null
     private val imageRef = Firebase.storage.reference
@@ -70,6 +70,9 @@ class EditFarmerOrderActivity : AppCompatActivity() {
         delete.setOnClickListener {
 
             deleteProduct(products)
+            successDialog()
+            val intent = Intent(this, FarmersActivity::class.java)
+            startActivity(intent)
         }
 
         update.setOnClickListener {
@@ -104,7 +107,7 @@ class EditFarmerOrderActivity : AppCompatActivity() {
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {
                         Toast.makeText(
-                            this@EditFarmerOrderActivity,
+                            this@UpdateOrderActivity,
                             e.toString(),
                             Toast.LENGTH_SHORT
                         ).show()
@@ -115,7 +118,7 @@ class EditFarmerOrderActivity : AppCompatActivity() {
         } else {
             withContext(Dispatchers.Main) {
                 Toast.makeText(
-                    this@EditFarmerOrderActivity,
+                    this@UpdateOrderActivity,
                     "Sorry An Error Occured",
                     Toast.LENGTH_SHORT
                 ).show()
@@ -188,7 +191,7 @@ class EditFarmerOrderActivity : AppCompatActivity() {
                     } catch (e: Exception) {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(
-                                this@EditFarmerOrderActivity,
+                                this@UpdateOrderActivity,
                                 e.toString(),
                                 Toast.LENGTH_SHORT
                             ).show()
@@ -199,7 +202,7 @@ class EditFarmerOrderActivity : AppCompatActivity() {
             } else {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(
-                        this@EditFarmerOrderActivity,
+                        this@UpdateOrderActivity,
                         "Sorry An Error Occured",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -281,10 +284,20 @@ class EditFarmerOrderActivity : AppCompatActivity() {
 
 
 
-        mDialogView.cancel.setOnClickListener {
+        mDialogView.create_btn.setOnClickListener {
             mAlertDialog?.dismiss()
         }
 
+    }
+
+    private fun successDialog() {
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.success_layout, null)
+        //AlertDialogBuilder
+        val mBuilder = AlertDialog.Builder(this)
+            .setView(mDialogView)
+
+        //show dialog
+        val mAlertDialog = mBuilder.show()
     }
 }
 
