@@ -20,6 +20,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.fragment_buyers_orders.*
 
 class BuyersOrdersFragment : Fragment(),OnUserClick {
     private lateinit var recyclerView: RecyclerView
@@ -70,6 +71,9 @@ class BuyersOrdersFragment : Fragment(),OnUserClick {
                             recyclerView.adapter = adapter
                             adapter.notifyDataSetChanged()
                         }
+                        else{
+                            noproduct.visibility = View.VISIBLE
+                        }
 
                     }
                 }
@@ -78,10 +82,10 @@ class BuyersOrdersFragment : Fragment(),OnUserClick {
 
     override fun onUserClick(products: Products, position: Int) {
 
-        val bundle = Bundle().apply {
-            putSerializable("product",products)
-        }
-        findNavController().navigate(R.id.action_buyersOrdersFragment_to_orderActivity,bundle)
+//        val bundle = Bundle().apply {
+//            putSerializable("product",products)
+//        }
+//        findNavController().navigate(R.id.action_buyersOrdersFragment_to_orderActivity,bundle)
 
     }
 

@@ -78,7 +78,9 @@ class UpdateOrderActivity : AppCompatActivity() {
         update.setOnClickListener {
             validateInputs()
             val newProduct = newData()
-            updatePerson(products, newProduct)
+            updateProduct(products, newProduct)
+            val intent = Intent(this, FarmersActivity::class.java)
+            startActivity(intent)
         }
 
         image.setOnClickListener {
@@ -133,7 +135,6 @@ class UpdateOrderActivity : AppCompatActivity() {
             data?.data?.let {
                 imageUri = it
                 image.setImageURI(it)
-                progressBar.visibility = View.VISIBLE
                 uploadImage()
                 progressBar.visibility = View.INVISIBLE
             }
@@ -170,7 +171,7 @@ class UpdateOrderActivity : AppCompatActivity() {
         if (contact.isNotEmpty()) {
             map["contact"] = contact
         }
-        if (imageUrl != null) {
+        if (imageUrl != "") {
             map["imageUrl"] = imageUrl
         }
 
@@ -178,7 +179,7 @@ class UpdateOrderActivity : AppCompatActivity() {
 
     }
 
-    private fun updatePerson(products: Products, newProduct: Map<String, Any>) =
+    private fun updateProduct(products: Products, newProduct: Map<String, Any>) =
         CoroutineScope(Dispatchers.IO).launch {
             val productQuery = dbRef.whereEqualTo("productId", products.productId)
                 .whereEqualTo("farmersId", FirebaseAuth.getInstance().currentUser?.uid)

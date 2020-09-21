@@ -70,8 +70,10 @@ class CreateOrderActivity : AppCompatActivity() {
                     progressBar.visibility = View.VISIBLE
                     createOrder(products)
 
+                    val intent = Intent(this,FarmersActivity::class.java)
+                    startActivity(intent)
 //                    findNavController().navigate(R.id.)
-                    it.findNavController().navigate(R.id.farmersProductsFragment)
+//                    it.findNavController().navigate(R.id.farmersProductsFragment)
                 }
 
 

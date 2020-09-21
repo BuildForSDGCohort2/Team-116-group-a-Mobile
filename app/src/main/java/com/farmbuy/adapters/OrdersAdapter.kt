@@ -42,7 +42,7 @@ class OrdersAdapter(private val ItemsList: List<Products>, val listener: OnClick
 
     class RecyclerViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview) {
         private val productName: TextView = itemview.etProductName
-        private val image: ImageView = itemview.`@+id/product_image`
+        private val image: ImageView = itemview.product_image
         private val location: TextView = itemview.etLocation
         private val units: TextView = itemview.units
         private val status:TextView = itemview.status
@@ -63,7 +63,8 @@ class OrdersAdapter(private val ItemsList: List<Products>, val listener: OnClick
                 status.setTextColor(Color.parseColor("#DD1717"))
             }
             else{
-                status.text = products.status
+                status.text = "Pending"
+                status.setTextColor(Color.parseColor("#CDDC39"))
             }
 
 

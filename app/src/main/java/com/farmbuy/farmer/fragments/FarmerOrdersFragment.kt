@@ -1,6 +1,7 @@
 package com.farmbuy.farmer.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.fragment_farmer_orders.*
 
 
 class FarmerOrdersFragment : Fragment(),OnClick {
@@ -52,11 +54,13 @@ class FarmerOrdersFragment : Fragment(),OnClick {
 
     private fun getProducts()
     {
+
         val farmerId = FirebaseAuth.getInstance().currentUser?.uid
-        dbRef.whereEqualTo("buyerId",farmerId)
+        dbRef.whereEqualTo("farmerId",farmerId)
             .addSnapshotListener{ value: QuerySnapshot?, error: FirebaseFirestoreException? ->
                 error?.let {
                     Toast.makeText(activity,"Sorry cant get Products at this time", Toast.LENGTH_SHORT).show()
+                    Log.d("farmer","ERROR")
                     return@addSnapshotListener
                 }
 
@@ -64,11 +68,17 @@ class FarmerOrdersFragment : Fragment(),OnClick {
                     for(documents in value.documents)
                     {
                         val products = documents.toObject<Products>()
+                        Log.d("farmer","Farmers Oders is called")
                         if (products != null) {
                             productsList.add(products)
+                            Log.d("farmer",products.toString())
                             val adapter = OrdersAdapter(productsList, this)
                             recyclerView.adapter = adapter
                             adapter.notifyDataSetChanged()
+                        }
+                        else{
+                            noproduct.visibility = View.VISIBLE
+
                         }
 
                     }

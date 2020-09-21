@@ -31,8 +31,10 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -45,10 +47,10 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:scaleType="centerCrop"
-                app:placeholderImage="@drawable/farmproducts"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:placeholderImage="@drawable/farmproducts" />
 
             <TextView
                 android:id="@+id/etProductName"
@@ -89,39 +91,39 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/description" />
 
-            <ImageView
+            <TextView
                 android:id="@+id/imgprice"
-                android:src="@drawable/money"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="#200"
-                android:textColor="@color/green"
+                android:gravity="center"
+                android:text="Price : "
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/units" />
 
             <TextView
                 android:id="@+id/etPrice"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginTop="12dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:src="@drawable/money"
                 android:text="#200"
-                android:textSize="20sp"
                 android:textColor="@color/green"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/imgprice"
                 app:layout_constraintStart_toEndOf="@+id/imgprice"
-                app:layout_constraintTop_toBottomOf="@id/units" />
+                app:layout_constraintTop_toTopOf="@+id/imgprice" />
 
-            <ImageView
+            <TextView
                 android:id="@+id/imageView2"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:src="@drawable/location"
-                android:text="Maiduguri"
-                android:textColor="@color/green"
+                android:text="Location : "
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/etPrice" />
 
@@ -130,11 +132,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_marginTop="12dp"
                 android:text="Maiduguri"
-                android:textColor="@color/green"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
-                app:layout_constraintTop_toBottomOf="@+id/etPrice" />
+                app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
             <ImageView
                 android:id="@+id/phone_logo"
@@ -151,19 +152,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="12dp"
                 android:text="08012345678"
                 android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/phone_logo"
                 app:layout_constraintStart_toEndOf="@+id/phone_logo"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+                app:layout_constraintTop_toTopOf="@+id/phone_logo" />
 
-            <ImageView
+            <TextView
                 android:id="@+id/data_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:src="@drawable/date"
+                android:text="Date Uploaded :"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/phone_logo" />
 
@@ -172,10 +174,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="20dp"
                 android:text="23 december 2020"
+                app:layout_constraintBottom_toBottomOf="@+id/data_icon"
                 app:layout_constraintStart_toEndOf="@+id/data_icon"
-                app:layout_constraintTop_toBottomOf="@+id/phone_logo" />
+                app:layout_constraintTop_toTopOf="@+id/data_icon" />
 
             <Button
                 android:id="@+id/order"

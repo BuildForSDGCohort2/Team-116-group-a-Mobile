@@ -126,7 +126,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/farmproducts"
+                android:src="@drawable/productimage"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/etContact"
                 app:layout_constraintStart_toStartOf="@+id/etContact"

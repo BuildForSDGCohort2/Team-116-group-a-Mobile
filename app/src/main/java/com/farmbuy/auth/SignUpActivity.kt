@@ -41,7 +41,6 @@ class SignUpActivity : AppCompatActivity() {
     private val PREF_NAME = "farm_buy"
     private var userRef = Firebase.firestore.collection("Users")
     private var mAuth: FirebaseAuth? = null
-    private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
     lateinit var mchoice: String
     lateinit var sharedPref:SharedPreferences
     private val REQUEST_CODE_IMAGE_PICK = 200
@@ -98,14 +97,14 @@ class SignUpActivity : AppCompatActivity() {
 
             val mUseranme = username.text?.trim().toString()
             val mEmail = email.text?.trim().toString()
-            val mPassword = phone?.text?.trim().toString()
+            val mPassword = password?.text?.trim().toString()
             val address = address.text.toString()
             val phone_number = phone.text.toString()
             if (imageUrl != "")
             {
-
+                register(mEmail, mPassword, mUseranme, mchoice,phone_number,address,imageUrl)
             }
-            register(mEmail, mPassword, mUseranme, mchoice,phone_number,address,imageUrl)
+
         }
     }
 
@@ -140,7 +139,6 @@ class SignUpActivity : AppCompatActivity() {
             }
             else
             {
-                progressBar.visibility = View.INVISIBLE
                 Toast.makeText(this, it.exception.toString(), Toast.LENGTH_LONG).show()
             }
         }
@@ -178,7 +176,9 @@ class SignUpActivity : AppCompatActivity() {
 
 
     private fun uploadImage() {
+
         if (imageUri != null) {
+            progressBar.visibility = View.VISIBLE
             val ref = imageRef.child("uploads/" + UUID.randomUUID().toString())
             val uploadTask = ref.putFile(imageUri!!)
 
@@ -192,11 +192,13 @@ class SignUpActivity : AppCompatActivity() {
             }).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     imageUrl = task.result.toString()
+
                 } else {
                     // Handle failures
                 }
             }.addOnFailureListener {
-                Toast.makeText(this, "Sorry an Error Occured", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
+
             }
         } else {
             Toast.makeText(this, "Please Upload an Image", Toast.LENGTH_SHORT).show()
@@ -210,7 +212,6 @@ class SignUpActivity : AppCompatActivity() {
             data?.data?.let {
                 imageUri = it
                 image.setImageURI(it)
-                progressBar.visibility = View.VISIBLE
                 uploadImage()
                 progressBar.visibility = View.INVISIBLE
             }

@@ -23,6 +23,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_farmers_products.*
+import kotlinx.android.synthetic.main.activity_farmers_products.fab
+import kotlinx.android.synthetic.main.fragment_farmers_products.*
 
 
 class FarmersProductsFragment : Fragment(),OnUserClick {
@@ -85,7 +87,7 @@ class FarmersProductsFragment : Fragment(),OnUserClick {
                         adapter.notifyDataSetChanged()
                     }
                     else{
-                        Toast.makeText(activity,"You have no Products",Toast.LENGTH_SHORT).show()
+                        noproduct.visibility = View.VISIBLE
                     }
 
                 }

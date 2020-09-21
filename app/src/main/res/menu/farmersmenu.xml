@@ -3,18 +3,18 @@
     <item
        android:id="@+id/farmersProductsFragment"
         android:title="My Products"
-        android:icon="@drawable/order"
+        android:icon="@drawable/products"
         />
 
     <item
        android:id="@+id/farmerOrdersFragment"
         android:title="My Orders"
-        android:icon="@drawable/ic_logout"
+        android:icon="@drawable/order"
         />
     <item
         android:id="@+id/farmerMessageFragment"
         android:title="Messages"
-        android:icon="@drawable/ic_logout"
+        android:icon="@drawable/message"
         />
     <item
         android:id="@+id/farmerProfileFragment"

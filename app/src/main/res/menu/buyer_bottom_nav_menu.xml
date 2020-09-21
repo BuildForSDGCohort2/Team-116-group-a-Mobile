@@ -4,23 +4,23 @@
     <item
         android:id="@+id/productsFragment"
         android:enabled="true"
-        android:icon="@drawable/order"
+        android:icon="@drawable/products"
         android:title="Produts" />
 
     <item
         android:id="@+id/searchFragment"
         android:enabled="true"
-        android:icon="@drawable/profile"
-        android:title="My Profile" />
+        android:icon="@drawable/search"
+        android:title="My Search" />
     <item
         android:id="@+id/buyersOrdersFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_logout"
+        android:icon="@drawable/order"
         android:title="My Orders" />
     <item
         android:id="@+id/buyersMessageFragment"
         android:enabled="true"
-        android:icon="@drawable/money"
+        android:icon="@drawable/message"
         android:title="Messages" />
 
 
