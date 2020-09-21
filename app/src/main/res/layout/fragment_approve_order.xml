@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".farmer.fragments.ApproveOrderFragment">
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
@@ -43,15 +44,16 @@
 
             <ImageView
                 android:id="@+id/product_image"
+                android:background="@drawable/image_corner_drawable"
                 android:layout_width="196dp"
                 android:layout_height="143dp"
                 android:layout_marginTop="4dp"
                 android:scaleType="centerCrop"
+                android:src="@drawable/farmproducts"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/farmproducts" />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <TextView
@@ -68,12 +70,11 @@
                 android:id="@+id/units"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:text="300 Units "
                 app:layout_constraintStart_toEndOf="@+id/product_image"
-                app:layout_constraintTop_toBottomOf="@+id/etLocation" />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -165,8 +166,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="SUBMIT"
         android:background="@drawable/btn_background"
+        android:text="SUBMIT"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
