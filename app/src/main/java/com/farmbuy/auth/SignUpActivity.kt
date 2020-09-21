@@ -132,8 +132,11 @@ class SignUpActivity : AppCompatActivity() {
 
             if (it.isSuccessful)
             {
-                val user = User(username, userType, email,phone_number,addess,profileUrl)
-                registerUserToDb(user)
+                val id = FirebaseAuth.getInstance().currentUser?.uid
+                val user = id?.let { it1 -> User(it1,username, userType, email,phone_number,addess,profileUrl) }
+                if (user != null) {
+                    registerUserToDb(user)
+                }
             }
             else
             {

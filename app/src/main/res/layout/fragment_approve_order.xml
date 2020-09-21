@@ -41,8 +41,8 @@
             android:layout_height="match_parent"
             android:padding="5dp">
 
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/imageView"
+            <ImageView
+                android:id="@+id/product_image"
                 android:layout_width="196dp"
                 android:layout_height="143dp"
                 android:layout_marginTop="4dp"
@@ -51,7 +51,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:placeholderImage="@drawable/farmproducts" />
+                android:src="@drawable/farmproducts" />
 
 
             <TextView
@@ -61,7 +61,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:text="Maize"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/product_image"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -72,7 +72,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 android:text="300 Units "
-                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/product_image"
                 app:layout_constraintTop_toBottomOf="@+id/etLocation" />
 
 
@@ -80,10 +80,10 @@
 
     </androidx.cardview.widget.CardView>
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userImage"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -101,7 +101,7 @@
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/userImage" />
 
     <TextView
         android:id="@+id/email"
@@ -142,7 +142,7 @@
         app:layout_constraintTop_toBottomOf="@+id/phone" />
 
     <Spinner
-        android:id="@+id/request_spinner"
+        android:id="@+id/spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -157,7 +157,7 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="16dp"
         android:text="Choose"
-        app:layout_constraintEnd_toStartOf="@+id/request_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/spinner"
         app:layout_constraintTop_toBottomOf="@+id/address" />
 
     <Button

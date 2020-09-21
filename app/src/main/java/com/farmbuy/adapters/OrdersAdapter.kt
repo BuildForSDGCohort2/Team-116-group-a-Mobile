@@ -7,17 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.farmbuy.R
 import com.farmbuy.datamodel.Products
-import com.google.common.io.Resources
 import kotlinx.android.synthetic.main.orders_layout.view.*
-import kotlinx.android.synthetic.main.product_layout.view.*
 import kotlinx.android.synthetic.main.product_layout.view.etLocation
 import kotlinx.android.synthetic.main.product_layout.view.etProductName
-import kotlinx.android.synthetic.main.product_layout.view.imageView
 import kotlinx.android.synthetic.main.product_layout.view.units
 
 
@@ -46,7 +42,7 @@ class OrdersAdapter(private val ItemsList: List<Products>, val listener: OnClick
 
     class RecyclerViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview) {
         private val productName: TextView = itemview.etProductName
-        private val image: ImageView = itemview.imageView
+        private val image: ImageView = itemview.`@+id/product_image`
         private val location: TextView = itemview.etLocation
         private val units: TextView = itemview.units
         private val status:TextView = itemview.status

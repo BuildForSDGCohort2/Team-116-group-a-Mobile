@@ -9,15 +9,17 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.navArgs
 import com.farmbuy.R
 import com.farmbuy.datamodel.Products
-import com.farmbuy.farmer.UpdateOrderActivityArgs
+import com.farmbuy.datamodel.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestoreException
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_sign_up.*
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_approve_order.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +32,7 @@ class ApproveOrderFragment : Fragment() {
     private val args: ApproveOrderFragmentArgs by navArgs()
     private var mchoice = ""
     private var dbRef = Firebase.firestore.collection("Orders")
-
+    private var userRef = Firebase.firestore.collection("Users")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,13 +46,20 @@ class ApproveOrderFragment : Fragment() {
         val products = args.product
         val choice = resources.getStringArray(R.array.request)
 
+        val id = products.buyerId
+
+        units.text = products.units
+        etProductName.text = products.productName
+        Picasso.get().load(products.imageUrl).into(product_image)
+
+
         if (spinner != null) {
             val adapter =
                 activity?.let { ArrayAdapter(it, android.R.layout.simple_spinner_item, choice) }
             adapter?.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
             spinner.adapter = adapter
 
-            request_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>,
                     view: View,
@@ -115,5 +124,35 @@ class ApproveOrderFragment : Fragment() {
                 }
             }
         }
+
+    private fun getUser(id:String) {
+        userRef.whereEqualTo("id",id)
+            .addSnapshotListener{ value: QuerySnapshot?, error: FirebaseFirestoreException? ->
+                error?.let {
+                    Toast.makeText(activity,"Sorry can't get User at this time", Toast.LENGTH_SHORT).show()
+                    return@addSnapshotListener
+                }
+                value?.let {
+                    for(documents in value.documents)
+                    {
+                        val user = documents.toObject<User>()
+                        user?.let {
+
+                            Picasso.get().load(user.profileImage).into(userImage)
+                            username.text = user.username
+                            email.text = user.email
+                            phone.text = user.phone_number
+                            address.text = user.address
+
+
+                        }
+
+
+                    }
+                }
+
+
+            }
+    }
 
 }

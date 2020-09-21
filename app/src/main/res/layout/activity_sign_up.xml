@@ -165,12 +165,13 @@
 
     <ImageButton
         android:id="@+id/image"
-        android:tooltipText="Click To Upload Photo"
         android:layout_width="80dp"
         android:layout_height="45dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/profilephoto"
+        android:tooltipText="Click To Upload Photo"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"
-       android:src="@drawable/profilephoto" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/phonelayout"

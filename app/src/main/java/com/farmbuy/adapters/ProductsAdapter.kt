@@ -38,7 +38,7 @@ class ProductsAdapter(private val ItemsList: List<Products>, val listener: OnUse
 
     class RecyclerViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview) {
         private val productName: TextView = itemview.etProductName
-        private val image: ImageView = itemview.imageView
+        private val image: ImageView = itemview.product_image
         private val location: TextView = itemview.etLocation
         private val units: TextView = itemview.units
 

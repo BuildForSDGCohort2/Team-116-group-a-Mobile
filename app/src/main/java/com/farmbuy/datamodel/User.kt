@@ -1,6 +1,7 @@
 package com.farmbuy.datamodel
 
 data class User(
+    val id :String = "",
     val username: String = "",
     val userTpe: String = "",
     val email: String = "",
