@@ -11,7 +11,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.farmbuy.R
+import com.farmbuy.adapters.OnClick
 import com.farmbuy.adapters.OnUserClick
+import com.farmbuy.adapters.OrdersAdapter
 import com.farmbuy.adapters.ProductsAdapter
 import com.farmbuy.datamodel.Products
 import com.google.firebase.auth.FirebaseAuth
@@ -22,7 +24,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_buyers_orders.*
 
-class BuyersOrdersFragment : Fragment(),OnUserClick {
+class BuyersOrdersFragment : Fragment(),OnClick {
     private lateinit var recyclerView: RecyclerView
     private lateinit var productsList: MutableList<Products>
     var dbRef = Firebase.firestore.collection("Orders")
@@ -67,7 +69,7 @@ class BuyersOrdersFragment : Fragment(),OnUserClick {
                         val products = documents.toObject<Products>()
                         if (products != null) {
                             productsList.add(products)
-                            val adapter = ProductsAdapter(productsList, this)
+                            val adapter = OrdersAdapter(productsList, this)
                             recyclerView.adapter = adapter
                             adapter.notifyDataSetChanged()
                         }

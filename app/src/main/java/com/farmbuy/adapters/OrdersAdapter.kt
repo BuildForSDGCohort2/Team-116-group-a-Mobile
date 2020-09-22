@@ -51,7 +51,7 @@ class OrdersAdapter(private val ItemsList: List<Products>, val listener: OnClick
         fun bind(products: Products, listener: OnClick) {
             productName.text = products.productName
             location.text = products.farmersLoc
-            units.text = products.units
+            units.text =  "${products.units} units available "
             if (products.status == "Approved")
             {
                 status.text = products.status

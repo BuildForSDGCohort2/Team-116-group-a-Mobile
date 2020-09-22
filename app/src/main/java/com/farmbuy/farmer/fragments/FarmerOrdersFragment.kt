@@ -56,7 +56,7 @@ class FarmerOrdersFragment : Fragment(),OnClick {
     {
 
         val farmerId = FirebaseAuth.getInstance().currentUser?.uid
-        dbRef.whereEqualTo("farmerId",farmerId)
+        dbRef.whereEqualTo("farmersId",farmerId)
             .addSnapshotListener{ value: QuerySnapshot?, error: FirebaseFirestoreException? ->
                 error?.let {
                     Toast.makeText(activity,"Sorry cant get Products at this time", Toast.LENGTH_SHORT).show()

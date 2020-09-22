@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.farmbuy.R
@@ -34,9 +33,9 @@ class LoginActivity : AppCompatActivity() {
             verifyInputs()
             val mEmail = email.text?.trim().toString()
             val mPassword = phone?.text?.trim().toString()
-            progressBar.visibility = View.VISIBLE
+
             login(mEmail, mPassword)
-            progressBar.visibility = View.INVISIBLE
+
         }
 
 
@@ -57,16 +56,18 @@ class LoginActivity : AppCompatActivity() {
 
 
     private fun login(email: String, password: String) {
-
+        progressBar.visibility = View.VISIBLE
         mAuth?.signInWithEmailAndPassword(email, password)?.addOnCompleteListener(this) {
             if (it.isSuccessful) {
                 checkUserType()
+                progressBar.visibility = View.INVISIBLE
 
             } else {
                 Toast.makeText(
                     this@LoginActivity, "Authentication failed PLease check your Email or Password",
                     Toast.LENGTH_LONG
                 ).show()
+                progressBar.visibility = View.INVISIBLE
             }
 
         }

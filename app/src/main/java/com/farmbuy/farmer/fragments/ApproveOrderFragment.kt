@@ -51,6 +51,7 @@ class ApproveOrderFragment : Fragment() {
         units.text = products.units
         etProductName.text = products.productName
         Picasso.get().load(products.imageUrl).into(product_image)
+        getUser(id)
 
 
         if (spinner != null) {
