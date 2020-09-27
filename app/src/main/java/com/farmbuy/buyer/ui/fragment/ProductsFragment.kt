@@ -68,8 +68,8 @@ class ProductsFragment : Fragment(), OnClick {
                 {
                     val products = documents.toObject<Products>()
                     if (products != null) {
+                        productsList.clear()
                         productsList.add(products)
-                        Log.d("gads",productsList.toString())
                         progressBar.visibility = View.INVISIBLE
                         val adapter = OrdersAdapter(
                             productsList,

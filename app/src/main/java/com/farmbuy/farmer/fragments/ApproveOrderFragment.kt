@@ -94,6 +94,7 @@ class ApproveOrderFragment : Fragment() {
 
     }
 
+
     private fun approveOrder(products: Products, newProduct: Map<String, Any>) =
         CoroutineScope(Dispatchers.IO).launch {
             val productQuery = dbRef.whereEqualTo("productId", products.productId)

@@ -52,12 +52,12 @@ class OrdersAdapter(private val ItemsList: List<Products>, val listener: OnClick
             productName.text = products.productName
             location.text = products.farmersLoc
             units.text =  "${products.units} units available "
-            if (products.status == "Approved")
+            if (products.status == "Approve")
             {
                 status.text = products.status
                 status.setTextColor(Color.parseColor("#50C155"))
             }
-            else if (products.status == "Declined")
+            else if (products.status == "Decline")
             {
                 status.text = products.status
                 status.setTextColor(Color.parseColor("#DD1717"))

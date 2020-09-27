@@ -17,11 +17,5 @@
         android:enabled="true"
         android:icon="@drawable/order"
         android:title="My Orders" />
-    <item
-        android:id="@+id/buyersMessageFragment"
-        android:enabled="true"
-        android:icon="@drawable/message"
-        android:title="Messages" />
-
 
 </menu>

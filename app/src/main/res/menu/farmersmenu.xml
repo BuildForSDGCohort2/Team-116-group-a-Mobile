@@ -11,11 +11,7 @@
         android:title="My Orders"
         android:icon="@drawable/order"
         />
-    <item
-        android:id="@+id/farmerMessageFragment"
-        android:title="Messages"
-        android:icon="@drawable/message"
-        />
+
     <item
         android:id="@+id/farmerProfileFragment"
         android:title="Profile"
