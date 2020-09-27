@@ -24,7 +24,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_products.*
 
 
-class ProductsFragment : Fragment(), OnClick {
+class ProductsFragment : Fragment(), OnUserClick {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var productsList: MutableList<Products>
@@ -71,9 +71,8 @@ class ProductsFragment : Fragment(), OnClick {
                         productsList.clear()
                         productsList.add(products)
                         progressBar.visibility = View.INVISIBLE
-                        val adapter = OrdersAdapter(
-                            productsList,
-                            this)
+                        val adapter = ProductsAdapter(
+                            productsList,this)
                         recyclerView.adapter = adapter
                         // progressBar.visibility = View.GONE
                         adapter.notifyDataSetChanged()
