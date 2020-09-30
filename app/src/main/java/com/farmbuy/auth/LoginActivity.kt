@@ -30,6 +30,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         sharedPref = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
         mAuth = FirebaseAuth.getInstance()
+
         loginbtn.setOnClickListener {
 
             verifyInputs()
@@ -74,24 +75,30 @@ class LoginActivity : AppCompatActivity() {
     private fun login(email: String, password: String) {
         progressBar.visibility = View.VISIBLE
 //        loginbtn.visibility = View.INVISIBLE
-        mAuth?.signInWithEmailAndPassword(email, password)?.addOnCompleteListener(this) {
-            if (it.isSuccessful) {
-                checkUserType()
-                progressBar.visibility = View.INVISIBLE
+
+
+            mAuth?.signInWithEmailAndPassword(email, password)?.addOnCompleteListener(this) {
+                if (it.isSuccessful) {
+                    checkUserType()
+                    progressBar.visibility = View.INVISIBLE
 //                loginbtn.visibility = View.VISIBLE
 
 
-            } else {
-                Toast.makeText(
-                    this@LoginActivity, "Authentication failed PLease check your Email or Password",
-                    Toast.LENGTH_LONG
-                ).show()
-                progressBar.visibility = View.INVISIBLE
+                } else {
+                    Toast.makeText(
+                        this@LoginActivity, "Authentication failed PLease check your Email or Password",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    progressBar.visibility = View.INVISIBLE
 //                loginbtn.visibility = View.VISIBLE
+
+                }
 
             }
 
-        }
+
+
+
 
     }
 
