@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/app_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".farmer.UpdateOrderActivity"></activity>
+        <activity android:name=".auth.ForgotPasswordActivity"></activity>
+        <activity android:name=".farmer.UpdateOrderActivity" />
         <activity android:name=".farmer.FarmersActivity" />
         <activity android:name=".buyer.ui.OrderActivity" />
         <activity android:name=".farmer.CreateOrderActivity" />

@@ -14,12 +14,14 @@ class AuthActivity : AppCompatActivity() {
         login.setOnClickListener {
 
             val intent = Intent(this, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
         }
 
 
-        signup.setOnClickListener {
+        sign.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent) }
     }
 }

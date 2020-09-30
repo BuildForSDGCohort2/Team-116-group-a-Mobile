@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,7 +24,6 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_farmers_products.*
 import kotlinx.android.synthetic.main.activity_farmers_products.fab
 import kotlinx.android.synthetic.main.fragment_farmers_products.*
 
@@ -30,6 +31,8 @@ import kotlinx.android.synthetic.main.fragment_farmers_products.*
 class FarmersProductsFragment : Fragment(),OnUserClick {
     private lateinit var recyclerView: RecyclerView
     private lateinit var productsList: MutableList<Products>
+    private  lateinit var  progress:ProgressBar
+    private  lateinit var noproduct:TextView
     var dbRef = Firebase.firestore.collection("Products")
 
 
@@ -45,6 +48,7 @@ class FarmersProductsFragment : Fragment(),OnUserClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+         progress = view.findViewById<ProgressBar>(R.id.progressBar)
 
         fab.setOnClickListener {
             val intent = Intent(activity, CreateOrderActivity::class.java)
@@ -59,16 +63,19 @@ class FarmersProductsFragment : Fragment(),OnUserClick {
             setHasFixedSize(true)
         }
         getProducts()
+        progress.visibility = View.INVISIBLE
 
     }
 
     private fun getProducts()
     {
+        progress.visibility = View.VISIBLE
         val farmerId = FirebaseAuth.getInstance().currentUser?.uid
         dbRef.whereEqualTo("farmersId",farmerId)
             .addSnapshotListener{ value: QuerySnapshot?, error: FirebaseFirestoreException? ->
             error?.let {
                 Toast.makeText(activity,"Sorry cant get Products at this time", Toast.LENGTH_SHORT).show()
+                progress.visibility = View.INVISIBLE
                 return@addSnapshotListener
             }
 
@@ -78,16 +85,14 @@ class FarmersProductsFragment : Fragment(),OnUserClick {
                     val products = documents.toObject<Products>()
                     if (products != null) {
                         productsList.add(products)
-                        Log.d("gads",productsList.toString())
-                        Log.d("gads","DATA RECEIVED")
-
+                        progress.visibility = View.INVISIBLE
                         val adapter = ProductsAdapter(productsList, this)
-                        Log.d("gads","ADAPTER SETTED")
                         recyclerView.adapter = adapter
                         adapter.notifyDataSetChanged()
                     }
                     else{
                         noproduct.visibility = View.VISIBLE
+                        recyclerView.visibility = View.INVISIBLE
                     }
 
                 }

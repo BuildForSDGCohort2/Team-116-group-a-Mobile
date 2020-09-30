@@ -13,6 +13,7 @@ import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import androidx.navigation.navArgs
 import com.facebook.drawee.view.SimpleDraweeView
+import com.farmbuy.Internet
 import com.farmbuy.R
 import com.farmbuy.datamodel.Products
 import com.google.firebase.auth.FirebaseAuth
@@ -40,8 +41,6 @@ class OrderActivity : AppCompatActivity() {
         setContentView(R.layout.activity_order)
         val products = args.product
 
-//        val navController = Navigation.findNavController(this, R.id.nav_host_fragment_container)
-
         val uri: Uri = Uri.parse(products.imageUrl)
         val draweeView = image as SimpleDraweeView
         draweeView.setImageURI(uri)
@@ -60,23 +59,29 @@ class OrderActivity : AppCompatActivity() {
 
             order.setOnClickListener {
 
-                sendOrderToDb(products)
-                successDialog()
-                val intent = Intent(this@OrderActivity,BuyersActivity::class.java)
-                startActivity(intent)
+                if (Internet.isNetworkConnected(this))
+                {
+                    sendOrderToDb(products)
+                    successDialog()
+                    val intent = Intent(this@OrderActivity,BuyersActivity::class.java)
+                    startActivity(intent)
+                }
+
+                else{
+                    Toast.makeText(this,"Sorry You do not have an Internet Connection",Toast.LENGTH_LONG).show()
+
+                }
+
+
 
 
             }
 
 
-//        phone.setOnClickListener {
-//
-//            val number = "09033128501"
-//
-//            //Dialer intent
-//            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Uri.encode(number)))
-//            startActivity(intent)
-//        }
+        phone.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Uri.encode(products.phone)))
+            startActivity(intent)
+        }
     }
 
 

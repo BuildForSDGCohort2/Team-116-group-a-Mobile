@@ -1,5 +1,6 @@
 package com.farmbuy.farmer.fragments
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.facebook.drawee.view.SimpleDraweeView
 import com.farmbuy.R
 import com.farmbuy.adapters.ProductsAdapter
 import com.farmbuy.datamodel.Products
@@ -31,8 +33,9 @@ class FarmerProfileFragment : Fragment(R.layout.fragment_farmer_profile) {
         super.onViewCreated(view, savedInstanceState)
 
         val userId = FirebaseAuth.getInstance().currentUser?.uid
+
         if (userId != null) {
-            dbRef.whereEqualTo("userId", userId)
+            dbRef.whereEqualTo("id", userId)
                 .addSnapshotListener { value: QuerySnapshot?, error: FirebaseFirestoreException? ->
                     error?.let {
                         Toast.makeText(
@@ -49,8 +52,15 @@ class FarmerProfileFragment : Fragment(R.layout.fragment_farmer_profile) {
                             if (user != null) {
                                 username.text = user.username
                                 email.text = user.email
-                                if (user.profileImage != "default") {
-                                    Picasso.get().load(user.profileImage).into(profilePhoto)
+                                phone.text = user.phone_number
+                                address.text = user.address
+                                if (user.profileImage != "") {
+
+                                    val uri: Uri = Uri.parse(user.profileImage)
+                                    val draweeView =profilePhoto as SimpleDraweeView
+                                    draweeView.setImageURI(uri)
+
+
                                 } else {
                                     profilePhoto.setImageResource(R.drawable.profile)
                                 }
@@ -61,6 +71,9 @@ class FarmerProfileFragment : Fragment(R.layout.fragment_farmer_profile) {
                         }
                     }
                 }
+        }
+        else{
+            Toast.makeText(activity,"Sorry cant load your  Profile at the Moment",Toast.LENGTH_SHORT).show()
         }
     }
 }

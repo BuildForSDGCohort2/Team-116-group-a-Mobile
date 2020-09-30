@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.farmbuy.Internet
 import com.farmbuy.R
 import com.farmbuy.buyer.ui.BuyersActivity
 import com.farmbuy.datamodel.User
@@ -17,7 +18,6 @@ import com.farmbuy.farmer.FarmersActivity
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.UploadTask
@@ -91,19 +91,31 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
 
-        signup.setOnClickListener {
+        sign.setOnClickListener {
 
             verifyInputs()
 
-            val mUseranme = username.text?.trim().toString()
-            val mEmail = email.text?.trim().toString()
-            val mPassword = password?.text?.trim().toString()
-            val address = address.text.toString()
-            val phone_number = phone.text.toString()
-            if (imageUrl != "")
+            if (Internet.isNetworkConnected(this))
             {
-                register(mEmail, mPassword, mUseranme, mchoice,phone_number,address,imageUrl)
+                progressBar.visibility = View.VISIBLE
+                val mUseranme = username.text?.trim().toString()
+                val mEmail = email.text?.trim().toString()
+                val mPassword = password?.text?.trim().toString()
+                val address = address.text.toString()
+                val phone_number = phone.text.toString()
+                if (imageUrl != "")
+                {
+                    register(mEmail, mPassword, mUseranme, mchoice,phone_number,address,imageUrl)
+                }
             }
+
+            else
+            {
+                Toast.makeText(this,"Sorry You do not have an Internet Connection",Toast.LENGTH_LONG).show()
+
+            }
+
+
 
         }
     }
@@ -147,7 +159,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun registerUserToDb(user: User) = CoroutineScope(Dispatchers.IO).launch {
 
         try {
-//            userRef.document().add()
+
             userRef.add(user).await()
             withContext(Dispatchers.Main)
             {
@@ -170,6 +182,8 @@ class SignUpActivity : AppCompatActivity() {
             }
 
         } catch (e: Exception) {
+            progressBar.visibility = View.INVISIBLE
+
             Toast.makeText(this@SignUpActivity, e.message, Toast.LENGTH_SHORT).show()
         }
     }

@@ -9,6 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.navigation.fragment.navArgs
+import com.farmbuy.Internet
 import com.farmbuy.R
 import com.farmbuy.datamodel.Products
 import com.farmbuy.datamodel.User
@@ -79,16 +80,26 @@ class ApproveOrderFragment : Fragment() {
 
         submit.setOnClickListener {
 
-            val map = mutableMapOf<String, Any>()
-            if (mchoice != "")
+            if (activity?.let { it1 -> Internet.isNetworkConnected(it1) }!!)
             {
-                map["status"] = mchoice
-                approveOrder(products,map)
-                Toast.makeText(activity,"Success",Toast.LENGTH_SHORT).show()
+                val map = mutableMapOf<String, Any>()
+                if (mchoice != "")
+                {
+                    map["status"] = mchoice
+                    approveOrder(products,map)
+                    Toast.makeText(activity,"Success",Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    Toast.makeText(activity,"Please Approve or Decline Order",Toast.LENGTH_SHORT).show()
+                }
             }
+
             else{
-                Toast.makeText(activity,"Please Approve or Decline Order",Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity,"Sorry You do not have an Internet Connection",Toast.LENGTH_LONG).show()
+
             }
+
+
 
         }
 

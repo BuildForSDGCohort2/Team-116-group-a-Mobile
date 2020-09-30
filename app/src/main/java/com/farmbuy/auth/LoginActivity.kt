@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import com.farmbuy.Internet
 import com.farmbuy.R
 import com.farmbuy.buyer.ui.BuyersActivity
 import com.farmbuy.datamodel.User
@@ -28,17 +29,33 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         sharedPref = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance()
         loginbtn.setOnClickListener {
+
             verifyInputs()
-            val mEmail = email.text?.trim().toString()
-            val mPassword = phone?.text?.trim().toString()
 
-            login(mEmail, mPassword)
-
+            if (Internet.isNetworkConnected(this)) {
+                val mEmail = email.text?.trim().toString()
+                val mPassword = phone?.text?.trim().toString()
+                login(mEmail, mPassword)
+            } else {
+                Toast.makeText(
+                    this,
+                    "Sorry You do not have an Internet Connection",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
+        signup.setOnClickListener {
+            val intent = Intent(this, SignUpActivity::class.java)
+            startActivity(intent)
+        }
 
+        forgotpassword.setOnClickListener {
+            val intent = Intent(this, ForgotPasswordActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun verifyInputs() {
@@ -51,16 +68,18 @@ class LoginActivity : AppCompatActivity() {
             phone.error = "Password is Required"
             phone.requestFocus()
         }
-
     }
 
 
     private fun login(email: String, password: String) {
         progressBar.visibility = View.VISIBLE
+//        loginbtn.visibility = View.INVISIBLE
         mAuth?.signInWithEmailAndPassword(email, password)?.addOnCompleteListener(this) {
             if (it.isSuccessful) {
                 checkUserType()
                 progressBar.visibility = View.INVISIBLE
+//                loginbtn.visibility = View.VISIBLE
+
 
             } else {
                 Toast.makeText(
@@ -68,6 +87,8 @@ class LoginActivity : AppCompatActivity() {
                     Toast.LENGTH_LONG
                 ).show()
                 progressBar.visibility = View.INVISIBLE
+//                loginbtn.visibility = View.VISIBLE
+
             }
 
         }

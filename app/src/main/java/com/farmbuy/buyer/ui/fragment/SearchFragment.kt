@@ -21,7 +21,6 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.fragment_products.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
@@ -52,7 +51,7 @@ class SearchFragment : Fragment(), OnUserClick {
         progressBar = view.findViewById(R.id.progressBar)
 
         recyclerView.apply {
-            layoutManager = LinearLayoutManager(activity) as RecyclerView.LayoutManager?
+            layoutManager = LinearLayoutManager(activity)
         }
 
         recyclerView.setHasFixedSize(true)

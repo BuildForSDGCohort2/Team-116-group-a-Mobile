@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
+import com.farmbuy.Internet
 import com.farmbuy.R
 import com.farmbuy.datamodel.Products
 import com.google.android.gms.tasks.Continuation
@@ -48,36 +49,43 @@ class CreateOrderActivity : AppCompatActivity() {
 
         create_btn.setOnClickListener {
             validateInputs()
+            if (Internet.isNetworkConnected(this))
+            {
+                if (imageUri == null) {
+                    Toast.makeText(this, "Please Upload the Product Image First", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    val productName = etProductName.text.toString()
+                    val description = etDescription.text.toString()
+                    val price = etPrice.text.toString()
+                    val units = etUnits.text.toString()
+                    val address = etLocation.text.toString()
+                    val contact = etContact.text.toString()
 
-            if (imageUri == null) {
-                Toast.makeText(this, "Please Upload the Product Image First", Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                val productName = etProductName.text.toString()
-                val description = etDescription.text.toString()
-                val price = etPrice.text.toString()
-                val units = etUnits.text.toString()
-                val address = etLocation.text.toString()
-                val contact = etContact.text.toString()
+                    val products = farmerId?.let { id ->
+                        Products(
+                            productName, description, units, price, address, imageUrl,
+                            id, currentDate, contact, "", productId
+                        )
+                    }
+                    if (products != null) {
+                        progressBar.visibility = View.VISIBLE
+                        createOrder(products)
 
-                val products = farmerId?.let { id ->
-                    Products(
-                        productName, description, units, price, address, imageUrl,
-                        id, currentDate, contact, "", productId
-                    )
-                }
-                if (products != null) {
-                    progressBar.visibility = View.VISIBLE
-                    createOrder(products)
-
-                    val intent = Intent(this,FarmersActivity::class.java)
-                    startActivity(intent)
+                        val intent = Intent(this,FarmersActivity::class.java)
+                        startActivity(intent)
 //                    findNavController().navigate(R.id.)
 //                    it.findNavController().navigate(R.id.farmersProductsFragment)
+                    }
+
+
                 }
-
-
             }
+            else{
+                Toast.makeText(this,"Sorry You do not have an Internet Connection",Toast.LENGTH_LONG).show()
+            }
+
+
         }
 
         image.setOnClickListener {

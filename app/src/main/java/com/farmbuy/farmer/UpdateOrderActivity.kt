@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.navArgs
 import com.facebook.drawee.view.SimpleDraweeView
+import com.farmbuy.Internet
 import com.farmbuy.R
 import com.farmbuy.datamodel.Products
 import com.google.android.gms.tasks.Continuation
@@ -69,18 +70,34 @@ class UpdateOrderActivity : AppCompatActivity() {
 
         delete.setOnClickListener {
 
-            deleteProduct(products)
-            successDialog()
-            val intent = Intent(this, FarmersActivity::class.java)
-            startActivity(intent)
+            if (Internet.isNetworkConnected(this))
+            {
+                deleteProduct(products)
+                successDialog()
+                val intent = Intent(this, FarmersActivity::class.java)
+                startActivity(intent)
+            }
+            else{
+
+                Toast.makeText(this,"Sorry You do not have an Internet Connection",Toast.LENGTH_LONG).show()
+            }
+
         }
 
         update.setOnClickListener {
-            validateInputs()
-            val newProduct = newData()
-            updateProduct(products, newProduct)
-            val intent = Intent(this, FarmersActivity::class.java)
-            startActivity(intent)
+
+            if (Internet.isNetworkConnected(this))
+            {
+                validateInputs()
+                val newProduct = newData()
+                updateProduct(products, newProduct)
+                val intent = Intent(this, FarmersActivity::class.java)
+                startActivity(intent)
+            }
+            else{
+                Toast.makeText(this,"Sorry You do not have an Internet Connection",Toast.LENGTH_LONG).show()
+            }
+
         }
 
         image.setOnClickListener {
