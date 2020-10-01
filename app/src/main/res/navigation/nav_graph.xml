@@ -46,4 +46,9 @@
         android:name="com.farmbuy.buyer.ui.fragment.BuyersMessageFragment"
         android:label="fragment_buyers_message"
         tools:layout="@layout/fragment_buyers_message" />
+    <fragment
+        android:id="@+id/buyerProfile"
+        android:name="com.farmbuy.buyer.ui.fragment.BuyerProfile"
+        android:label="fragment_buyer_profile"
+        tools:layout="@layout/fragment_buyer_profile" />
 </navigation>
