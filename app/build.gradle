@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.farmbuy"
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -78,9 +78,15 @@ dependencies {
 
     implementation 'com.android.support:multidex:1.0.3'
 
-
+    implementation 'com.github.Chrisvin:ConcentricOnboarding:1.0'
     // Navigation Components
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.0"
     implementation "androidx.navigation:navigation-ui-ktx:2.3.0"
 
+
+    //Library for Onboarding Pages
+    implementation 'com.cuneytayyildiz:onboarder:2.0.0'
+
+
+    implementation 'com.github.mahmoud-assaf:OnBoardingViewLib:0.3'
 }
