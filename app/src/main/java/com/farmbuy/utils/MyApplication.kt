@@ -1,4 +1,4 @@
-package com.farmbuy
+package com.farmbuy.utils
 
 import android.app.Application
 import com.facebook.drawee.backends.pipeline.Fresco

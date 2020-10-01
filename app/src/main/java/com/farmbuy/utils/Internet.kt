@@ -1,4 +1,4 @@
-package com.farmbuy
+package com.farmbuy.utils
 
 import android.content.Context
 import android.net.ConnectivityManager

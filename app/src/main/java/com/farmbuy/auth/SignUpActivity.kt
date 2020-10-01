@@ -10,7 +10,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import com.farmbuy.Internet
+import com.farmbuy.utils.Internet
 import com.farmbuy.R
 import com.farmbuy.buyer.ui.BuyersActivity
 import com.farmbuy.datamodel.User

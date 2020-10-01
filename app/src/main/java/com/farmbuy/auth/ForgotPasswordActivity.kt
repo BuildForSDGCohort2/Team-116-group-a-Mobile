@@ -3,7 +3,7 @@ package com.farmbuy.auth
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import com.farmbuy.Internet
+import com.farmbuy.utils.Internet
 import com.farmbuy.R
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_forgot_password.*
