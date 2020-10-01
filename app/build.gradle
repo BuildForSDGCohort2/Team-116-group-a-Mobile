@@ -40,8 +40,6 @@ android {
     }
 
 
-
-
     //Test
     androidExtensions {
         experimental = true
@@ -77,16 +75,11 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     implementation 'com.android.support:multidex:1.0.3'
-
-    implementation 'com.github.Chrisvin:ConcentricOnboarding:1.0'
     // Navigation Components
     implementation "androidx.navigation:navigation-fragment-ktx:2.3.0"
     implementation "androidx.navigation:navigation-ui-ktx:2.3.0"
 
 
-    //Library for Onboarding Pages
-    implementation 'com.cuneytayyildiz:onboarder:2.0.0'
-
-
+//Onboarding library
     implementation 'com.github.mahmoud-assaf:OnBoardingViewLib:0.3'
 }
