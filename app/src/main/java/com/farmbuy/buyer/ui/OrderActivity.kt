@@ -58,7 +58,8 @@ class OrderActivity : AppCompatActivity() {
 
                 if (Internet.isNetworkConnected(this))
                 {
-                    sendOrderToDb(products)
+                    showDialog(products)
+//                    sendOrderToDb(products)
                     successDialog()
                     val intent = Intent(this@OrderActivity,BuyersActivity::class.java)
                     startActivity(intent)
@@ -74,33 +75,26 @@ class OrderActivity : AppCompatActivity() {
 
             }
 
-
         phone.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + Uri.encode(products.phone)))
             startActivity(intent)
         }
     }
-
-
     private fun sendOrderToDb(products: Products) = CoroutineScope(Dispatchers.IO).launch {
-
         try {
-
             dbRef.add(products).await()
-
             withContext(Dispatchers.Main) {
                 progressBar.visibility = View.INVISIBLE
-
-
+                successDialog()
             }
         } catch (e: Exception) {
+            errorDialog()
 //            Toast.makeText(this@OrderActivity, e.message, Toast.LENGTH_SHORT).show()
         }
-
     }
 
 
-    private fun showDialog() {
+    private fun showDialog(products: Products) {
         //Inflate the dialog with custom view
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.confirm_dialog, null)
         //AlertDialogBuilder
@@ -113,11 +107,12 @@ class OrderActivity : AppCompatActivity() {
         mDialogView.confirm.setOnClickListener {
             //When Successfull
             mAlertDialog.dismiss()
-            successDialog()
+            sendOrderToDb(products)
 
-            mAlertDialog.dismiss()
+
+//            mAlertDialog.dismiss()
             // When  error occurs
-            errorDialog()
+
 
         }
         mDialogView.create_btn.setOnClickListener {
