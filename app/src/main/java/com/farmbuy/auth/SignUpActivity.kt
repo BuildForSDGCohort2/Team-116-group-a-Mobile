@@ -91,7 +91,7 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
 
-        sign.setOnClickListener {
+        signUpBtn.setOnClickListener {
 
             verifyInputs()
 
@@ -107,11 +107,18 @@ class SignUpActivity : AppCompatActivity() {
                 {
                     register(mEmail, mPassword, mUseranme, mchoice,phone_number,address,imageUrl)
                 }
+                else{
+                    progressBar.visibility = View.INVISIBLE
+
+                    Toast.makeText(this,"Please Uplaod Your Your Photo",Toast.LENGTH_LONG).show()
+
+                }
             }
 
             else
             {
                 Toast.makeText(this,"Sorry You do not have an Internet Connection",Toast.LENGTH_LONG).show()
+                progressBar.visibility = View.INVISIBLE
 
             }
 
@@ -190,6 +197,8 @@ class SignUpActivity : AppCompatActivity() {
 
 
     private fun uploadImage() {
+        progressBar.visibility = View.VISIBLE
+        signUpBtn.visibility = View.INVISIBLE
 
         if (imageUri != null) {
             progressBar.visibility = View.VISIBLE
@@ -198,6 +207,8 @@ class SignUpActivity : AppCompatActivity() {
 
             uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
                 if (!task.isSuccessful) {
+                    progressBar.visibility = View.INVISIBLE
+                    signUpBtn.visibility = View.VISIBLE
                     task.exception?.let {
                         throw it
                     }
@@ -205,6 +216,8 @@ class SignUpActivity : AppCompatActivity() {
                 return@Continuation ref.downloadUrl
             }).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    progressBar.visibility = View.INVISIBLE
+                    signUpBtn.visibility = View.VISIBLE
                     imageUrl = task.result.toString()
 
                 } else {

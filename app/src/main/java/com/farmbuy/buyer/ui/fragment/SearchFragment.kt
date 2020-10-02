@@ -57,13 +57,14 @@ class SearchFragment : Fragment(), OnUserClick {
         recyclerView.setHasFixedSize(true)
 
         var job: Job? = null
+
         searchQuery.addTextChangedListener { searchText ->
 
             job?.cancel()
             job = MainScope().launch {
                 delay(500)
                 searchText.let {
-                    if (searchText.toString().isNotEmpty()) {
+                    if (searchText.toString().isEmpty()) {
                        getProducts(searchText.toString())
                     }
                 }
@@ -71,44 +72,61 @@ class SearchFragment : Fragment(), OnUserClick {
             }
         }
 
+
+
     }
 
 
     private fun getProducts(searchText:String)
     {
-        progressBar.visibility = View.VISIBLE
-        dbRef.whereEqualTo("productName",searchText)
-            .addSnapshotListener{ value: QuerySnapshot?, error: FirebaseFirestoreException? ->
-            error?.let {
-                progressBar.visibility = View.INVISIBLE
-                Toast.makeText(activity,"Sorry cant get Products at this time", Toast.LENGTH_SHORT).show()
-                return@addSnapshotListener
-            }
-
-            value?.let {
-                for(documents in value.documents)
-                {
-                    val products = documents.toObject<Products>()
-                    if (products != null) {
-                        productsList.clear()
-                        productsList.add(products)
-                        Log.d("gads",productsList.toString())
+        if (searchText.isNotEmpty()) {
+            progressBar.visibility = View.VISIBLE
+            dbRef.whereEqualTo("productName", searchText)
+                .addSnapshotListener { value: QuerySnapshot?, error: FirebaseFirestoreException? ->
+                    error?.let {
                         progressBar.visibility = View.INVISIBLE
-                        val adapter = ProductsAdapter(
-                            productsList,
-                            this)
-                        recyclerView.adapter = adapter
-
-                        progressBar.visibility = View.INVISIBLE
-
-                        adapter.notifyDataSetChanged()
+                        Toast.makeText(
+                            activity,
+                            "Sorry cant get Products at this time",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@addSnapshotListener
                     }
 
-                }
-            }
+                    value?.let {
+                        for (documents in value.documents) {
+                            val products = documents.toObject<Products>()
+                            if (products != null) {
+                                productsList.clear()
+                                productsList.add(products)
+                                Log.d("gads", productsList.toString())
+                                progressBar.visibility = View.INVISIBLE
+                                val adapter = ProductsAdapter(
+                                    productsList,
+                                    this
+                                )
+                                recyclerView.adapter = adapter
 
+                                progressBar.visibility = View.INVISIBLE
+
+                                adapter.notifyDataSetChanged()
+                            }
+                            else{
+                                progressBar.visibility = View.INVISIBLE
+
+                            }
+
+                        }
+                    }
+
+
+                }
+        }
+        else{
+            progressBar.visibility = View.INVISIBLE
 
         }
+
 
 
     }

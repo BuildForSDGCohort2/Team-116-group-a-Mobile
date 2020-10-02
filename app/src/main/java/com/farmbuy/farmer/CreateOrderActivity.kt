@@ -151,11 +151,17 @@ class CreateOrderActivity : AppCompatActivity() {
 
     private fun uploadImage() {
         if (imageUri != null) {
+            progressBar.visibility = View.VISIBLE
+            create_btn.visibility = View.INVISIBLE
             val ref = imageRef.child("uploads/" + UUID.randomUUID().toString())
             val uploadTask = ref.putFile(imageUri!!)
 
             uploadTask.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
                 if (!task.isSuccessful) {
+                    progressBar.visibility = View.INVISIBLE
+                    create_btn.visibility = View.VISIBLE
+
+
                     task.exception?.let {
                         throw it
                     }
@@ -163,6 +169,10 @@ class CreateOrderActivity : AppCompatActivity() {
                 return@Continuation ref.downloadUrl
             }).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    progressBar.visibility = View.INVISIBLE
+                    create_btn.visibility = View.VISIBLE
+
+
                     imageUrl = task.result.toString()
                 } else {
                     // Handle failures
