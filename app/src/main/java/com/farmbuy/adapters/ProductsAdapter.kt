@@ -46,9 +46,8 @@ class ProductsAdapter(private val ItemsList: List<Products>, val listener: OnUse
         fun bind(products: Products, listener: OnUserClick) {
             productName.text = products.productName
             location.text = products.farmersLoc
-            units.text = products.units
-//            Picasso.get().load(products.productImage).into(image)
-
+            val unit = " ${products.units} available"
+            units.text = unit
 
             val uri: Uri = Uri.parse(products.imageUrl)
             val draweeView =image as SimpleDraweeView

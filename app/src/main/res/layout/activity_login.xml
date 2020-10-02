@@ -105,7 +105,7 @@
         app:layout_constraintVertical_bias="0.36" />
 
     <TextView
-        android:id="@+id/sign"
+        android:id="@+id/signUpBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="116dp"
@@ -121,9 +121,9 @@
         android:text="Sign Up"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/sign"
-        app:layout_constraintStart_toEndOf="@+id/sign"
-        app:layout_constraintTop_toTopOf="@+id/sign" />
+        app:layout_constraintBottom_toBottomOf="@+id/signUpBtn"
+        app:layout_constraintStart_toEndOf="@+id/signUpBtn"
+        app:layout_constraintTop_toTopOf="@+id/signUpBtn" />
 
     <TextView
         android:id="@+id/forgotpassword"
