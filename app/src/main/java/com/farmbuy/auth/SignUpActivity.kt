@@ -1,6 +1,7 @@
 package com.farmbuy.auth
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -93,7 +94,40 @@ class SignUpActivity : AppCompatActivity() {
 
         signUpBtn.setOnClickListener {
 
-            verifyInputs()
+            if (username.text.isNullOrEmpty()) {
+                username.error = "Username is Required"
+                username.requestFocus()
+                return@setOnClickListener
+            }
+            if (email.text.isNullOrEmpty()) {
+            email.error = "Email is Required"
+            email.requestFocus()
+                return@setOnClickListener
+        }
+
+            if (phone.text.isNullOrEmpty()) {
+                phone.error = "Password is Required"
+                phone.requestFocus()
+                return@setOnClickListener
+            }
+            if (address.text.isNullOrEmpty())
+            {
+                address.error = "Address id Required"
+                address.requestFocus()
+                return@setOnClickListener
+            }
+            if (password.text.isNullOrEmpty())
+            {
+                password.error = "Password is required"
+                password.requestFocus()
+                return@setOnClickListener
+            }
+
+
+
+
+
+
 
             if (Internet.isNetworkConnected(this))
             {
@@ -127,10 +161,11 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun verifyInputs() {
+    private fun verifyInputs(context: Context) {
         if (username.text.isNullOrEmpty()) {
             username.error = "Username is Required"
             username.requestFocus()
+
 
         }
         if (email.text.isNullOrEmpty()) {
@@ -141,6 +176,11 @@ class SignUpActivity : AppCompatActivity() {
         if (phone.text.isNullOrEmpty()) {
             phone.error = "Password is Required"
             phone.requestFocus()
+        }
+        if (address.text.isNullOrEmpty())
+        {
+            address.error = "Address id Required"
+
         }
     }
 
