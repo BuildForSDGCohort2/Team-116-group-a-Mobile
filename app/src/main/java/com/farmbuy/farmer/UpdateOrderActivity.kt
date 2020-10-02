@@ -12,7 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.navigation.navArgs
 import com.facebook.drawee.view.SimpleDraweeView
-import com.farmbuy.Internet
+import com.farmbuy.utils.Internet
 import com.farmbuy.R
 import com.farmbuy.datamodel.Products
 import com.google.android.gms.tasks.Continuation

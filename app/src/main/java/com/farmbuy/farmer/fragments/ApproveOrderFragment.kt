@@ -9,7 +9,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.navigation.fragment.navArgs
-import com.farmbuy.Internet
+import com.farmbuy.utils.Internet
 import com.farmbuy.R
 import com.farmbuy.datamodel.Products
 import com.farmbuy.datamodel.User

@@ -24,7 +24,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import kotlinx.android.synthetic.main.activity_farmers_products.fab
+//import kotlinx.android.synthetic.main.activity_farmers_products.fab
 import kotlinx.android.synthetic.main.fragment_farmers_products.*
 
 
@@ -50,6 +50,7 @@ class FarmersProductsFragment : Fragment(),OnUserClick {
 
          progress = view.findViewById<ProgressBar>(R.id.progressBar)
 
+
         fab.setOnClickListener {
             val intent = Intent(activity, CreateOrderActivity::class.java)
             startActivity(intent)
@@ -59,7 +60,7 @@ class FarmersProductsFragment : Fragment(),OnUserClick {
         recyclerView = view.findViewById(R.id.recyclerview)
         productsList = mutableListOf()
         recyclerView.apply {
-            layoutManager = LinearLayoutManager(activity) as RecyclerView.LayoutManager?
+            layoutManager = LinearLayoutManager(activity)
             setHasFixedSize(true)
         }
         getProducts()
