@@ -47,6 +47,39 @@ class CreateOrderActivity : AppCompatActivity() {
 
         create_btn.setOnClickListener {
             validateInputs()
+
+            if (etProductName.text.isEmpty()) {
+                etProductName.error = "This field is required"
+                etProductName.requestFocus()
+                return@setOnClickListener
+            }
+            if (etContact.text.isEmpty()) {
+                etContact.error = "This field is required"
+                etContact.requestFocus()
+                return@setOnClickListener
+            }
+            if (etDescription.text.isEmpty()) {
+                etDescription.error = "This field is required"
+                etDescription.requestFocus()
+                return@setOnClickListener
+            }
+            if (etLocation.text.isEmpty()) {
+                etLocation.error = "This field is required"
+                etLocation.requestFocus()
+                return@setOnClickListener
+            }
+            if (etPrice.text.isEmpty()) {
+                etPrice.error = "This field is required"
+                etPrice.requestFocus()
+                return@setOnClickListener
+            }
+            if (etUnits.text.isEmpty()) {
+                etUnits.error = "This field is required"
+                etUnits.requestFocus()
+                return@setOnClickListener
+            }
+
+
             if (Internet.isNetworkConnected(this))
             {
                 if (imageUri == null) {

@@ -72,10 +72,9 @@ class UpdateOrderActivity : AppCompatActivity() {
 
             if (Internet.isNetworkConnected(this))
             {
-                deleteProduct(products)
-                successDialog()
-                val intent = Intent(this, FarmersActivity::class.java)
-                startActivity(intent)
+                delete.visibility = View.INVISIBLE
+                deleteDialog(products)
+
             }
             else{
 
@@ -89,10 +88,10 @@ class UpdateOrderActivity : AppCompatActivity() {
             if (Internet.isNetworkConnected(this))
             {
                 validateInputs()
+                update.visibility = View.INVISIBLE
                 val newProduct = newData()
                 updateProduct(products, newProduct)
-                val intent = Intent(this, FarmersActivity::class.java)
-                startActivity(intent)
+
             }
             else{
                 Toast.makeText(this,"Sorry You do not have an Internet Connection",Toast.LENGTH_LONG).show()
@@ -114,6 +113,7 @@ class UpdateOrderActivity : AppCompatActivity() {
 
     private fun deleteProduct(products: Products) = CoroutineScope(Dispatchers.IO).launch {
 
+
         val productQuery = dbRef.whereEqualTo("productId", products.productId)
             .whereEqualTo("farmersId", FirebaseAuth.getInstance().currentUser?.uid)
             .get()
@@ -123,6 +123,13 @@ class UpdateOrderActivity : AppCompatActivity() {
                 try {
 
                     dbRef.document(document.id).delete().await()
+                    withContext(Dispatchers.Main)
+                    {
+                        delete.visibility = View.VISIBLE
+                        val intent = Intent(this@UpdateOrderActivity, FarmersActivity::class.java)
+                        startActivity(intent)
+                        successDialog()
+                    }
                 } catch (e: Exception) {
                     withContext(Dispatchers.Main) {
                         Toast.makeText(
@@ -198,6 +205,7 @@ class UpdateOrderActivity : AppCompatActivity() {
 
     private fun updateProduct(products: Products, newProduct: Map<String, Any>) =
         CoroutineScope(Dispatchers.IO).launch {
+
             val productQuery = dbRef.whereEqualTo("productId", products.productId)
                 .whereEqualTo("farmersId", FirebaseAuth.getInstance().currentUser?.uid)
                 .get()
@@ -206,6 +214,16 @@ class UpdateOrderActivity : AppCompatActivity() {
                 for (document in productQuery) {
                     try {
                         dbRef.document(document.id).set(newProduct, SetOptions.merge()).await()
+                        withContext(Dispatchers.Main)
+                        {
+                            update.visibility = View.VISIBLE
+                            val intent = Intent(this@UpdateOrderActivity, FarmersActivity::class.java)
+                            startActivity(intent)
+                            successDialog()
+
+                        }
+
+
                     } catch (e: Exception) {
                         withContext(Dispatchers.Main) {
                             Toast.makeText(
@@ -232,6 +250,8 @@ class UpdateOrderActivity : AppCompatActivity() {
     private fun uploadImage() {
         if (imageUri != null) {
             progressBar.visibility = View.VISIBLE
+            delete.visibility = View.INVISIBLE
+            update.visibility = View.INVISIBLE
             val ref = imageRef.child("uploads/" + UUID.randomUUID().toString())
             val uploadTask = ref.putFile(imageUri!!)
 
@@ -246,11 +266,15 @@ class UpdateOrderActivity : AppCompatActivity() {
                 }).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         progressBar.visibility = View.INVISIBLE
+                        delete.visibility = View.VISIBLE
+                        update.visibility = View.VISIBLE
                         imageUrl = task.result.toString()
                     } else {
                         // Handle failures
                     }
                 }.addOnFailureListener {
+                    delete.visibility = View.VISIBLE
+                    update.visibility = View.VISIBLE
                     Toast.makeText(this, "Sorry an Error Occured", Toast.LENGTH_SHORT).show()
                     progressBar.visibility = View.INVISIBLE
                 }
@@ -283,7 +307,7 @@ class UpdateOrderActivity : AppCompatActivity() {
     }
 
 
-    fun deleteDialog() {
+    fun deleteDialog(products: Products) {
         //Inflate the dialog with custom view
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.delete_dialog_layout, null)
         //AlertDialogBuilder
@@ -294,10 +318,7 @@ class UpdateOrderActivity : AppCompatActivity() {
         val mAlertDialog = mBuilder.show()
         //login button click of custom layout
         mDialogView.confirm.setOnClickListener {
-
-            //When Successfull
-            mAlertDialog.dismiss()
-
+            deleteProduct(products)
         }
 
 

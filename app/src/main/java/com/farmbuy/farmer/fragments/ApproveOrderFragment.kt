@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.farmbuy.utils.Internet
 import com.farmbuy.R
@@ -88,6 +89,7 @@ class ApproveOrderFragment : Fragment() {
                     map["status"] = mchoice
                     approveOrder(products,map)
                     Toast.makeText(activity,"Success",Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.farmerOrdersFragment)
                 }
                 else{
                     Toast.makeText(activity,"Please Approve or Decline Order",Toast.LENGTH_SHORT).show()
