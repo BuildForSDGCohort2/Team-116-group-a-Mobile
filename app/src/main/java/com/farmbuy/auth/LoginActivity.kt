@@ -32,8 +32,17 @@ class LoginActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         loginbtn.setOnClickListener {
+            if (email.text.isNullOrEmpty()) {
+                email.error = "Email is Required"
+                email.requestFocus()
+                return@setOnClickListener
+            }
 
-            verifyInputs()
+            if (phone.text.isNullOrEmpty()) {
+                phone.error = "Password is Required"
+                phone.requestFocus()
+                return@setOnClickListener
+            }
 
             if (Internet.isNetworkConnected(this)) {
                 val mEmail = email.text?.trim().toString()
@@ -59,45 +68,27 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun verifyInputs() {
-        if (email.text.isNullOrEmpty()) {
-            email.error = "Email is Required"
-            email.requestFocus()
-        }
-
-        if (phone.text.isNullOrEmpty()) {
-            phone.error = "Password is Required"
-            phone.requestFocus()
-        }
-    }
-
-
     private fun login(email: String, password: String) {
         progressBar.visibility = View.VISIBLE
-//        loginbtn.visibility = View.INVISIBLE
+        loginbtn.visibility = View.INVISIBLE
 
+        mAuth?.signInWithEmailAndPassword(email, password)?.addOnCompleteListener(this) {
+            if (it.isSuccessful) {
+                checkUserType()
+                progressBar.visibility = View.INVISIBLE
+                loginbtn.visibility = View.VISIBLE
 
-            mAuth?.signInWithEmailAndPassword(email, password)?.addOnCompleteListener(this) {
-                if (it.isSuccessful) {
-                    checkUserType()
-                    progressBar.visibility = View.INVISIBLE
-//                loginbtn.visibility = View.VISIBLE
-
-
-                } else {
-                    Toast.makeText(
-                        this@LoginActivity, "Authentication failed PLease check your Email or Password",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    progressBar.visibility = View.INVISIBLE
-//                loginbtn.visibility = View.VISIBLE
-
-                }
+            } else {
+                Toast.makeText(
+                    this@LoginActivity, "Authentication failed PLease check your Email or Password",
+                    Toast.LENGTH_LONG
+                ).show()
+                progressBar.visibility = View.INVISIBLE
+                loginbtn.visibility = View.VISIBLE
 
             }
 
-
-
+        }
 
 
     }
@@ -116,22 +107,26 @@ class LoginActivity : AppCompatActivity() {
                     for (documents in value.documents) {
                         val user = documents.toObject<User>()
                         if (user != null) {
-                            if (user.userTpe == "Farmer") {
-                                val editor = sharedPref.edit()
-                                editor.putString(PREF_NAME, "farmer")
-                                editor.apply()
-                                val intent = Intent(this, FarmersActivity::class.java)
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                                startActivity(intent)
-                            } else if (user.userTpe == "Buyer") {
-                                val editor = sharedPref.edit()
-                                editor.putString(PREF_NAME, "buyer")
-                                editor.apply()
-                                val intent = Intent(this, BuyersActivity::class.java)
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                                startActivity(intent)
-                            } else {
-                                TODO()
+                            when (user.userTpe) {
+                                "Farmer" -> {
+                                    val editor = sharedPref.edit()
+                                    editor.putString(PREF_NAME, "farmer")
+                                    editor.apply()
+                                    val intent = Intent(this, FarmersActivity::class.java)
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                    startActivity(intent)
+                                }
+                                "Buyer" -> {
+                                    val editor = sharedPref.edit()
+                                    editor.putString(PREF_NAME, "buyer")
+                                    editor.apply()
+                                    val intent = Intent(this, BuyersActivity::class.java)
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                    startActivity(intent)
+                                }
+                                else -> {
+                                    TODO()
+                                }
                             }
 
                         } else {
