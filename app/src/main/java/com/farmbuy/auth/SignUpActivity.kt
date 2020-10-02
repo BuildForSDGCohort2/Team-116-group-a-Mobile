@@ -43,13 +43,13 @@ class SignUpActivity : AppCompatActivity() {
     private var userRef = Firebase.firestore.collection("Users")
     private var mAuth: FirebaseAuth? = null
     lateinit var mchoice: String
-    lateinit var sharedPref:SharedPreferences
+    lateinit var sharedPref: SharedPreferences
     private val REQUEST_CODE_IMAGE_PICK = 200
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
 
-        sharedPref= getSharedPreferences(PREF_NAME, PRIVATE_MODE)
+        sharedPref = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
 
         val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -100,104 +100,85 @@ class SignUpActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             if (email.text.isNullOrEmpty()) {
-            email.error = "Email is Required"
-            email.requestFocus()
+                email.error = "Email is Required"
+                email.requestFocus()
                 return@setOnClickListener
-        }
+            }
 
             if (phone.text.isNullOrEmpty()) {
                 phone.error = "Password is Required"
                 phone.requestFocus()
                 return@setOnClickListener
             }
-            if (address.text.isNullOrEmpty())
-            {
+            if (address.text.isNullOrEmpty()) {
                 address.error = "Address id Required"
                 address.requestFocus()
                 return@setOnClickListener
             }
-            if (password.text.isNullOrEmpty())
-            {
+            if (password.text.isNullOrEmpty()) {
                 password.error = "Password is required"
                 password.requestFocus()
                 return@setOnClickListener
             }
 
-
-
-
-
-
-
-            if (Internet.isNetworkConnected(this))
-            {
+            if (Internet.isNetworkConnected(this)) {
                 progressBar.visibility = View.VISIBLE
                 val mUseranme = username.text?.trim().toString()
                 val mEmail = email.text?.trim().toString()
                 val mPassword = password?.text?.trim().toString()
                 val address = address.text.toString()
                 val phone_number = phone.text.toString()
-                if (imageUrl != "")
-                {
-                    register(mEmail, mPassword, mUseranme, mchoice,phone_number,address,imageUrl)
-                }
-                else{
+                if (imageUrl != "") {
+                    register(mEmail, mPassword, mUseranme, mchoice, phone_number, address, imageUrl)
+                } else {
                     progressBar.visibility = View.INVISIBLE
 
-                    Toast.makeText(this,"Please Uplaod Your Your Photo",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Please Uplaod Your Your Photo", Toast.LENGTH_LONG).show()
 
                 }
-            }
-
-            else
-            {
-                Toast.makeText(this,"Sorry You do not have an Internet Connection",Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(
+                    this,
+                    "Sorry You do not have an Internet Connection",
+                    Toast.LENGTH_LONG
+                ).show()
                 progressBar.visibility = View.INVISIBLE
 
             }
 
 
-
         }
     }
 
-    private fun verifyInputs(context: Context) {
-        if (username.text.isNullOrEmpty()) {
-            username.error = "Username is Required"
-            username.requestFocus()
-
-
-        }
-        if (email.text.isNullOrEmpty()) {
-            email.error = "Email is Required"
-            email.requestFocus()
-        }
-
-        if (phone.text.isNullOrEmpty()) {
-            phone.error = "Password is Required"
-            phone.requestFocus()
-        }
-        if (address.text.isNullOrEmpty())
-        {
-            address.error = "Address id Required"
-
-        }
-    }
-
-    private fun register(email: String, password: String, username: String, userType: String,phone_number:String,addess:String,profileUrl:String) {
+    private fun register(
+        email: String,
+        password: String,
+        username: String,
+        userType: String,
+        phone_number: String,
+        addess: String,
+        profileUrl: String
+    ) {
         progressBar.visibility = View.VISIBLE
         mAuth?.createUserWithEmailAndPassword(email, password)?.addOnCompleteListener(this) {
 
-            if (it.isSuccessful)
-            {
+            if (it.isSuccessful) {
                 val id = FirebaseAuth.getInstance().currentUser?.uid
-                val user = id?.let { it1 -> User(it1,username, userType, email,phone_number,addess,profileUrl) }
+                val user = id?.let { it1 ->
+                    User(
+                        it1,
+                        username,
+                        userType,
+                        email,
+                        phone_number,
+                        addess,
+                        profileUrl
+                    )
+                }
                 if (user != null) {
                     registerUserToDb(user)
                 }
-            }
-            else
-            {
+            } else {
                 Toast.makeText(this, it.exception.toString(), Toast.LENGTH_LONG).show()
             }
         }
@@ -213,14 +194,14 @@ class SignUpActivity : AppCompatActivity() {
                 progressBar.visibility = View.INVISIBLE
                 if (user.userTpe == "Farmer") {
                     val editor = sharedPref.edit()
-                    editor.putString(PREF_NAME,"farmer")
+                    editor.putString(PREF_NAME, "farmer")
                     editor.apply()
                     val intent = Intent(this@SignUpActivity, FarmersActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     startActivity(intent)
                 } else {
                     val editor = sharedPref.edit()
-                    editor.putString(PREF_NAME,"buyer")
+                    editor.putString(PREF_NAME, "buyer")
                     editor.apply()
                     val intent = Intent(this@SignUpActivity, BuyersActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -275,7 +256,7 @@ class SignUpActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode ==REQUEST_CODE_IMAGE_PICK) {
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_IMAGE_PICK) {
             data?.data?.let {
                 imageUri = it
                 image.setImageURI(it)
