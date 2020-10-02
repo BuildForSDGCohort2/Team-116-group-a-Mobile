@@ -115,11 +115,8 @@ class SearchFragment : Fragment(), OnUserClick {
                                 progressBar.visibility = View.INVISIBLE
 
                             }
-
                         }
                     }
-
-
                 }
         }
         else{

@@ -50,14 +50,7 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign_up)
 
         sharedPref = getSharedPreferences(PREF_NAME, PRIVATE_MODE)
-
-        val toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-
         mAuth = FirebaseAuth.getInstance()
-
-
         val choice = resources.getStringArray(R.array.choice)
 
         if (spinner != null) {
