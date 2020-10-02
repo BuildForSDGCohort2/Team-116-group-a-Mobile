@@ -31,15 +31,19 @@ class Onboarder : AppCompatActivity() {
         val fUser = FirebaseAuth.getInstance().currentUser
         if (fUser !== null) {
 
-            if (sharedPref.getString(PREF_NAME, null) == "farmer") {
-                val intent = Intent(this, FarmersActivity::class.java)
-                startActivity(intent)
-            } else if (sharedPref.getString(PREF_NAME, null) == "buyer") {
+            when {
+                sharedPref.getString(PREF_NAME, null) == "farmer" -> {
+                    val intent = Intent(this, FarmersActivity::class.java)
+                    startActivity(intent)
+                }
+                sharedPref.getString(PREF_NAME, null) == "buyer" -> {
 
-                val intent = Intent(this, BuyersActivity::class.java)
-                startActivity(intent)
-            } else {
-                startActivity(Intent(this, AuthActivity::class.java))
+                    val intent = Intent(this, BuyersActivity::class.java)
+                    startActivity(intent)
+                }
+                else -> {
+                    startActivity(Intent(this, AuthActivity::class.java))
+                }
             }
 
         } else {

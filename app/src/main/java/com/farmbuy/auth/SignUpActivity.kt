@@ -42,7 +42,7 @@ class SignUpActivity : AppCompatActivity() {
     private val PREF_NAME = "farm_buy"
     private var userRef = Firebase.firestore.collection("Users")
     private var mAuth: FirebaseAuth? = null
-    lateinit var mchoice: String
+    var mchoice: String = ""
     lateinit var sharedPref: SharedPreferences
     private val REQUEST_CODE_IMAGE_PICK = 200
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -128,12 +128,12 @@ class SignUpActivity : AppCompatActivity() {
                 val mPassword = password?.text?.trim().toString()
                 val address = address.text.toString()
                 val phone_number = phone.text.toString()
-                if (imageUrl != "") {
+                if (imageUrl != "" && mchoice != "") {
                     register(mEmail, mPassword, mUseranme, mchoice, phone_number, address, imageUrl)
                 } else {
                     progressBar.visibility = View.INVISIBLE
 
-                    Toast.makeText(this, "Please Uplaod Your Your Photo", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Please Uplaod Your Photo or Choose a User Type", Toast.LENGTH_LONG).show()
 
                 }
             } else {
