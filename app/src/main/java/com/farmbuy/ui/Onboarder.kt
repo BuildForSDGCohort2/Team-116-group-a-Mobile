@@ -48,35 +48,51 @@ class Onboarder : AppCompatActivity() {
             screens.add(
                 OnBoardingScreen(
                     titleText = "Hunger",
-                    subTitleText = "introducing awesome new feature  1 ",
-                    screenBGColor = Color.RED,
-                    drawableResId = R.drawable.profile
+                    subTitleText = "An estimated 820 million people do not have enough to eat,\n" +
+                            " up from 811 million last year - third year in a row the number increase: UN report",
+                    screenBGColor = R.color.onboarding_bg,
+                    drawableResId = R.drawable.hunger1
                 )
             )
             screens.add(
                 OnBoardingScreen(
-                    titleText = "Title 2",
-                    subTitleText = "introducing awesome new feature  2 ",
-                    drawableResId = R.drawable.farmproducts,
-                    screenBGColor = Color.parseColor("#FE6F0C")
-                )
+                    titleText = "SDG GOAL 2",
+                    subTitleText = "Goal 2 seeks sustainable solutions to end hunger in all its forms by 2030 and to achieve food security.\n" +
+                            "The aim is to ensure that everyone everywhere has enough good-quality food to lead a healthy life.",
+                    drawableResId = R.drawable.sdg1,
+                    screenBGColor = R.color.onboarding_bg
+
+                    )
             )
             screens.add(
                 OnBoardingScreen(
-                    titleText = "Title 3",
-                    subTitleText = "introducing awesome new feature  3 ",
-                    drawableResId = R.drawable.profile,
-                    screenBGColor = Color.MAGENTA
-                )
+                    titleText = "SDG GOAL 2",
+                    subTitleText = "Achieving this Goal will require better access to food and the widespread promotion of sustainable agriculture",
+                    drawableResId = R.drawable.sdg1,
+                    screenBGColor = R.color.onboarding_bg
+
+                    )
             )
             screens.add(
                 OnBoardingScreen(
-                    titleText = "Title 4",
-                    subTitleText = "introducing awesome new feature  4 ",
-                    screenBGColor = Color.RED,
-                    drawableResId = R.drawable.productimage
+                    titleText = "Farmers",
+                    subTitleText = "By Connecting Local Framers to Buyers We can have a massive Reduction in World Hunger",
+                    screenBGColor = R.color.onboarding_bg,
+                    drawableResId = R.drawable.farmer1
                 )
             )
+
+            screens.add(
+                OnBoardingScreen(
+                    titleText = "FarmBuy",
+                    subTitleText = "The Idea behind this App is to help buyers get fresh produce and buy directly from farmers, \n" +
+                            "it will also help farmers sell faster, thereby reducing costs and improving health and Nutrition of people ,\n" +
+                            "farmer stand a chance of selling products fast, and people stand a chance of getting cheaper foods thereby reducing Hunger",
+                    screenBGColor = R.color.onboarding_bg,
+                    drawableResId = R.drawable.food1
+                )
+            )
+
             onBoardingView.setScreens(screens)
 
             onBoardingView.onEnd {
@@ -85,7 +101,7 @@ class Onboarder : AppCompatActivity() {
             }
 
             onBoardingView.onFinish {
-                Toast.makeText(this, "OnBoarding last screen", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this, "OnBoarding last screen", Toast.LENGTH_SHORT).show()
                 /* return false will not trigger this action again(on swipe back ) ,
             true will trigger it with every swipe to last screen ,
             may used for showing some animation or something */
