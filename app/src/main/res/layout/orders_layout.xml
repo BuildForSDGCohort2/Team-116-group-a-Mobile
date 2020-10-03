@@ -23,7 +23,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:placeholderImage="@drawable/farmproducts" />
+            app:placeholderImage="@drawable/productimage" />
 
         <TextView
             android:id="@+id/etProductName"
@@ -37,13 +37,14 @@
 
         <TextView
             android:id="@+id/etLocation"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="12dp"
             android:text="Abuja"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/product_image"
-            app:layout_constraintTop_toBottomOf="@+id/etProductName" />
+            app:layout_constraintTop_toBottomOf="@+id/status" />
 
         <TextView
             android:id="@+id/units"
@@ -54,7 +55,7 @@
             android:layout_marginTop="8dp"
             android:text="300 Units "
             app:layout_constraintStart_toEndOf="@+id/product_image"
-            app:layout_constraintTop_toBottomOf="@+id/etLocation" />
+            app:layout_constraintTop_toBottomOf="@+id/etProductName" />
 
         <TextView
             android:id="@+id/status"

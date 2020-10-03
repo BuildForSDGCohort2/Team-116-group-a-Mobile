@@ -23,11 +23,8 @@ import kotlinx.android.synthetic.main.activity_order.etPrice
 import kotlinx.android.synthetic.main.activity_order.etProductName
 import kotlinx.android.synthetic.main.activity_order.image
 import kotlinx.android.synthetic.main.confirm_dialog.view.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 
 class OrderActivity : AppCompatActivity() {
     private var dbRef = Firebase.firestore.collection("Orders")
@@ -45,7 +42,8 @@ class OrderActivity : AppCompatActivity() {
         etProductName.text = products.productName
         etLocation.text = products.farmersLoc
         etPrice.text = products.price
-        units.text = products.units
+        val unitsAvailable = "${products.units}  Units Available "
+        units.text = unitsAvailable
         description.text = products.description
         phone.text = products.phone
         date.text = products.dateUploaded
@@ -60,19 +58,14 @@ class OrderActivity : AppCompatActivity() {
                 {
                     showDialog(products)
 //                    sendOrderToDb(products)
-                    successDialog()
-                    val intent = Intent(this@OrderActivity,BuyersActivity::class.java)
-                    startActivity(intent)
+//                    successDialog()
+//                    val intent = Intent(this@OrderActivity,BuyersActivity::class.java)
+//                    startActivity(intent)
                 }
 
                 else{
                     Toast.makeText(this,"Sorry You do not have an Internet Connection",Toast.LENGTH_LONG).show()
-
                 }
-
-
-
-
             }
 
         phone.setOnClickListener {
@@ -84,11 +77,16 @@ class OrderActivity : AppCompatActivity() {
         try {
             dbRef.add(products).await()
             withContext(Dispatchers.Main) {
-                progressBar.visibility = View.INVISIBLE
                 successDialog()
             }
         } catch (e: Exception) {
-            errorDialog()
+            withContext(Dispatchers.Main)
+            {
+                Toast.makeText(this@OrderActivity, e.message, Toast.LENGTH_SHORT).show()
+                errorDialog()
+
+            }
+
 //            Toast.makeText(this@OrderActivity, e.message, Toast.LENGTH_SHORT).show()
         }
     }
@@ -108,12 +106,6 @@ class OrderActivity : AppCompatActivity() {
             //When Successfull
             mAlertDialog.dismiss()
             sendOrderToDb(products)
-
-
-//            mAlertDialog.dismiss()
-            // When  error occurs
-
-
         }
         mDialogView.create_btn.setOnClickListener {
             mAlertDialog?.dismiss()
@@ -129,6 +121,11 @@ class OrderActivity : AppCompatActivity() {
 
         //show dialog
         val mAlertDialog = mBuilder.show()
+
+        val intent = Intent(this@OrderActivity,BuyersActivity::class.java)
+        startActivity(intent)
+        mAlertDialog.dismiss()
+
     }
 
 

@@ -46,7 +46,7 @@ class ProductsAdapter(private val ItemsList: List<Products>, val listener: OnUse
         fun bind(products: Products, listener: OnUserClick) {
             productName.text = products.productName
             location.text = products.farmersLoc
-            val unit = " ${products.units} available"
+            val unit = " ${products.units}  units available"
             units.text = unit
 
             val uri: Uri = Uri.parse(products.imageUrl)
