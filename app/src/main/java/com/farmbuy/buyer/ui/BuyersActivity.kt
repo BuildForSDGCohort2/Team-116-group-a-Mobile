@@ -63,7 +63,9 @@ class BuyersActivity : AppCompatActivity() {
     private var doubleBackToExitPressedOnce = false
     override fun onBackPressed() {
         if (doubleBackToExitPressedOnce) {
-            finish()
+
+            finishAffinity()
+
 //            super.onBackPressed()
         }
 
