@@ -15,6 +15,7 @@ import com.farmbuy.R
 import com.farmbuy.auth.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_farmers.*
+import kotlin.system.exitProcess
 
 class FarmersActivity : AppCompatActivity() {
 
@@ -57,17 +58,16 @@ class FarmersActivity : AppCompatActivity() {
 
 
     private var doubleBackToExitPressedOnce = false
-    override fun onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
+//    override fun onBackPressed() {
+//        if (doubleBackToExitPressedOnce) {
+//
+//            finishAffinity()
+//        }
+//
 
-            finish()
-
-//            super.onBackPressed()
-        }
-
-        this.doubleBackToExitPressedOnce = true
-        makeText(this, "Please Click BACK again to exit", Toast.LENGTH_SHORT).show()
-
-        Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
-    }
+//    this.doubleBackToExitPressedOnce = true
+//        makeText(this, "Please Click BACK again to exit", Toast.LENGTH_SHORT).show()
+//
+//        Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+//    }
 }

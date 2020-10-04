@@ -2,6 +2,7 @@ package com.farmbuy.farmer.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,9 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import android.widget.Toast.makeText
+import androidx.activity.addCallback
+import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -35,7 +39,25 @@ class FarmersProductsFragment : Fragment(),OnUserClick {
     private  lateinit var noproduct:TextView
     var dbRef = Firebase.firestore.collection("Products")
 
+    private  var doubleBackToExitPressedOnce = false
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+
+            if (doubleBackToExitPressedOnce) {
+                activity?.let { ActivityCompat.finishAffinity(it) }
+            }
+            doubleBackToExitPressedOnce = true
+
+            makeText(activity, "Please Click BACK again to exit", Toast.LENGTH_SHORT).show()
+
+            Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)}
+
+
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
