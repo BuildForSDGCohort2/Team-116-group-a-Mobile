@@ -60,19 +60,19 @@ class BuyersActivity : AppCompatActivity() {
         }
     }
 
-    private var doubleBackToExitPressedOnce = false
-    override fun onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-
-            finishAffinity()
-
-//            super.onBackPressed()
-        }
-
-        this.doubleBackToExitPressedOnce = true
-        Toast.makeText(this, "Please Click BACK again to exit", Toast.LENGTH_SHORT).show()
-
-        Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
-    }
+//    private var doubleBackToExitPressedOnce = false
+//    override fun onBackPressed() {
+//        if (doubleBackToExitPressedOnce) {
+//
+//            finishAffinity()
+//
+////            super.onBackPressed()
+//        }
+//
+//        this.doubleBackToExitPressedOnce = true
+//        Toast.makeText(this, "Please Click BACK again to exit", Toast.LENGTH_SHORT).show()
+//
+//        Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+//    }
 
 }

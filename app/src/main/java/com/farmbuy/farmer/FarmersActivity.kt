@@ -58,15 +58,16 @@ class FarmersActivity : AppCompatActivity() {
 
 
     private var doubleBackToExitPressedOnce = false
-    override fun onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
+//    override fun onBackPressed() {
+//        if (doubleBackToExitPressedOnce) {
+//
+//            finishAffinity()
+//        }
+//
 
-            finishAffinity()
-        }
-
-        this.doubleBackToExitPressedOnce = true
-        makeText(this, "Please Click BACK again to exit", Toast.LENGTH_SHORT).show()
-
-        Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
-    }
+//    this.doubleBackToExitPressedOnce = true
+//        makeText(this, "Please Click BACK again to exit", Toast.LENGTH_SHORT).show()
+//
+//        Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
+//    }
 }

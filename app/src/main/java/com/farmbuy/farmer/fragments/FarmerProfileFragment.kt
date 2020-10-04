@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
+import androidx.navigation.fragment.findNavController
 import com.facebook.drawee.view.SimpleDraweeView
 import com.farmbuy.R
 import com.farmbuy.adapters.ProductsAdapter
@@ -74,6 +76,13 @@ class FarmerProfileFragment : Fragment(R.layout.fragment_farmer_profile) {
         }
         else{
             Toast.makeText(activity,"Sorry cant load your  Profile at the Moment",Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+           findNavController().navigate(R.id.farmersProductsFragment)
         }
     }
 }

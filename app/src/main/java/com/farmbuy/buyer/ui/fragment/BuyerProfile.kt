@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
+import androidx.navigation.fragment.findNavController
 import com.facebook.drawee.view.SimpleDraweeView
 import com.farmbuy.R
 import com.farmbuy.datamodel.User
@@ -20,10 +22,6 @@ import kotlinx.android.synthetic.main.fragment_buyer_profile.*
 
 class BuyerProfile : Fragment() {
     var dbRef = Firebase.firestore.collection("Users")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,6 +80,13 @@ class BuyerProfile : Fragment() {
             Toast.makeText(activity,"Sorry cant load your  Profile at the Moment", Toast.LENGTH_SHORT).show()
         }
 
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val callback = requireActivity().onBackPressedDispatcher.addCallback(this) {
+            findNavController().navigate(R.id.productsFragment)
+        }
     }
 
 }
