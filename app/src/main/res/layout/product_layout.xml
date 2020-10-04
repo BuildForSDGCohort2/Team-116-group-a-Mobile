@@ -29,23 +29,21 @@
             android:id="@+id/etProductName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
             android:text="Maize"
-            app:layout_constraintStart_toEndOf="@+id/product_image"
+            app:layout_constraintStart_toStartOf="@+id/guideline12"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/etLocation"
             android:layout_width="150dp"
             android:layout_height="16dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="122dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="27dp"
             android:text="Abuja"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/product_image"
+            app:layout_constraintStart_toStartOf="@+id/guideline12"
             app:layout_constraintTop_toBottomOf="@+id/units" />
 
         <TextView
@@ -53,11 +51,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:text="300 Units "
-            app:layout_constraintStart_toEndOf="@+id/product_image"
+            app:layout_constraintStart_toStartOf="@+id/guideline12"
             app:layout_constraintTop_toBottomOf="@+id/etProductName" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="216dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
