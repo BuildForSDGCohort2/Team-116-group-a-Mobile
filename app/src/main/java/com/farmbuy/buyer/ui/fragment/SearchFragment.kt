@@ -59,17 +59,21 @@ class SearchFragment : Fragment(), OnUserClick {
 
         var job: Job? = null
 
-        searchQuery.addTextChangedListener { searchText ->
 
+        searchQuery.addTextChangedListener { editable ->
             job?.cancel()
             job = MainScope().launch {
-                delay(500)
-                searchText.let {
-                    if (searchText.toString().isEmpty()) {
-                       getProducts(searchText.toString())
+                delay(200)
+                editable?.let {
+                    if(editable.toString().isNotEmpty()) {
+                        getProducts(editable.toString())
+
+
+                    }
+                    else{
+                        progressBar.visibility = View.INVISIBLE
                     }
                 }
-
             }
         }
 
@@ -80,6 +84,7 @@ class SearchFragment : Fragment(), OnUserClick {
 
     private fun getProducts(searchText:String)
     {
+        progressBar.visibility = View.VISIBLE
         if (searchText.isNotEmpty()) {
             progressBar.visibility = View.VISIBLE
             dbRef.whereEqualTo("productName", searchText)
@@ -100,7 +105,6 @@ class SearchFragment : Fragment(), OnUserClick {
                             if (products != null) {
                                 productsList.clear()
                                 productsList.add(products)
-                                Log.d("gads", productsList.toString())
                                 progressBar.visibility = View.INVISIBLE
                                 val adapter = ProductsAdapter(
                                     productsList,
