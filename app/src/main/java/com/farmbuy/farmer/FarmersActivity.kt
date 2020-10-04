@@ -57,14 +57,13 @@ class FarmersActivity : AppCompatActivity() {
     }
 
 
-    private var doubleBackToExitPressedOnce = false
 //    override fun onBackPressed() {
 //        if (doubleBackToExitPressedOnce) {
 //
 //            finishAffinity()
 //        }
 //
-
+//
 //    this.doubleBackToExitPressedOnce = true
 //        makeText(this, "Please Click BACK again to exit", Toast.LENGTH_SHORT).show()
 //
