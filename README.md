@@ -21,7 +21,7 @@
 
 ## Features
 
-A few of the things you can do with FarmBuy as  Farmer:
+A few of the things you can do with FarmBuy as a Farmer:
 * Upload Your Produce
 * View People who have ordered your Produce
 * Accept or Decline Order
@@ -57,7 +57,7 @@ A few of the things you can do with FarmBuy as  Buyer:
 
 ## Features
 
-A few of the things you can do with GitPoint::
+A few of the things you can do with FarmBuy:
 * Farmers sell their Producel faster
 * Buyers get fresh produce and buy directly from farmers
 
