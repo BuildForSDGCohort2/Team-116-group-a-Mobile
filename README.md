@@ -34,7 +34,7 @@ A few of the things you can do with FarmBuy as  Buyer:
 * Order a Product
 * Know when your Produce is Accepted or Declined
 
-## Bibraries Uses
+## Libraries Uses
 
 * Firebase FireStore
 * Firebase Storage
